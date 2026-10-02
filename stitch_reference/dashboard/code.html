@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-error":"#ffffff","on-secondary":"#ffffff","on-surface-variant":"#43474d","on-error-container":"#93000a","surface":"#f4faff","outline":"#73777e","on-primary-fixed-variant":"#2d4964","surface-bright":"#f4faff","on-primary-container":"#7d98b7","surface-tint":"#46617d","inverse-on-surface":"#e6f3fb","error-container":"#ffdad6","inverse-surface":"#263238","secondary-container":"#a4f2d6","on-secondary-fixed":"#002117","secondary":"#166b55","error":"#ba1a1a","surface-container-highest":"#d7e4ec","surface-dim":"#cfdce4","on-background":"#111d23","primary-container":"#12304a","on-surface":"#111d23","primary-fixed":"#cfe5ff","inverse-primary":"#adc9ea","on-tertiary-fixed-variant":"#624000","secondary-fixed-dim":"#89d5ba","surface-container-lowest":"#ffffff","on-tertiary":"#ffffff","on-secondary-fixed-variant":"#00513f","on-tertiary-fixed":"#291800","tertiary-fixed-dim":"#feba52","primary-fixed-dim":"#adc9ea","outline-variant":"#c3c7ce","tertiary-fixed":"#ffddb2","primary":"#001b31","secondary-fixed":"#a4f2d6","tertiary":"#261600","on-primary-fixed":"#001d34","tertiary-container":"#422900","on-primary":"#ffffff","surface-container-low":"#e9f6fd","on-tertiary-container":"#c68a25","on-secondary-container":"#1f715a","surface-container-high":"#ddeaf2","background":"#f4faff","surface-variant":"#d7e4ec","surface-container":"#e3f0f8"},borderRadius:{DEFAULT:"0.125rem",lg:"0.25rem",xl:"0.5rem",full:"0.75rem"},spacing:{"space-md":"1rem",margin:"2rem","space-xl":"2.5rem","margin-mobile":"1rem","gutter-mobile":"0.75rem",gutter:"1.5rem","space-lg":"1.5rem","space-xs":"0.25rem","space-sm":"0.5rem"},fontFamily:{"label-sm":["Inter"],"code-statutory":["Inter"],"headline-lg-mobile":["Inter"],"body-lg":["Inter"],"headline-lg":["Inter"],"headline-md":["Inter"],"table-data":["Inter"],"body-sm":["Inter"],"headline-sm":["Inter"],display:["Inter"],"label-md":["Inter"],"body-md":["Inter"]},fontSize:{"label-sm":["11px",{lineHeight:"16px",letterSpacing:"0.04em",fontWeight:"600"}],"code-statutory":["12px",{lineHeight:"16px",letterSpacing:"0.02em",fontWeight:"500"}],"headline-lg-mobile":["24px",{lineHeight:"32px",letterSpacing:"-0.01em",fontWeight:"600"}],"body-lg":["16px",{lineHeight:"26px",letterSpacing:"0em",fontWeight:"400"}],"headline-lg":["28px",{lineHeight:"36px",letterSpacing:"-0.015em",fontWeight:"600"}],"headline-md":["20px",{lineHeight:"28px",letterSpacing:"-0.01em",fontWeight:"600"}],"table-data":["13px",{lineHeight:"20px",letterSpacing:"0em",fontWeight:"400"}],"body-sm":["12px",{lineHeight:"18px",letterSpacing:"0.005em",fontWeight:"400"}],"headline-sm":["16px",{lineHeight:"24px",letterSpacing:"0em",fontWeight:"600"}],display:["36px",{lineHeight:"44px",letterSpacing:"-0.02em",fontWeight:"700"}],"label-md":["13px",{lineHeight:"18px",letterSpacing:"0.01em",fontWeight:"500"}],"body-md":["14px",{lineHeight:"22px",letterSpacing:"0em",fontWeight:"400"}]}}}}</script></head><body class="bg-surface text-on-surface font-body-md text-body-md"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest border-r border-outline-variant z-50 flex flex-col justify-between select-none"><div class="flex flex-col"><div class="h-20 px-5 flex items-center gap-3 border-b border-outline-variant"><img alt="UdyamSetu Emblem" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1U5eqSadtavAmJctLql-kg9BacQgz1cP1P9D8YWzOwK2p4VuzxnZG8HmIs_lhsXmg-au9-TJLsbxb9LBENeZ0Ga26UXAINUrprA5l2oeT3w093Gq5h70dY7B_yj96L0kiVW73TOtvUh2x5gmcqDYCERJxEAELeU79YfDoOYrGpccLfEeNMER45G3AcXhuj2QZQjf9m89oghlre5W3VR7t996WXtWT61b4J4Hm1LtLm-"/><div class="flex flex-col min-w-0"><span class="font-headline-sm text-headline-sm text-primary tracking-tight truncate">UDYAMSETU</span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider truncate">Regulatory Intelligence</span></div></div><div class="px-3 py-4"><div class="px-3 pb-2 font-label-sm text-label-sm text-outline uppercase tracking-wider">Navigation</div><nav class="space-y-1" data-active-classes="bg-primary-container text-on-primary font-semibold"><a class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="overview" href="#"><span class="font-body-md text-body-md">Overview</span></a><a class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="business-profile" href="#"><span class="font-body-md text-body-md">Business Profile</span></a><a aria-current="page" class="flex items-center gap-3 px-3 py-2.5 rounded transition-colors bg-primary-container text-on-primary font-semibold" data-path="regulatory-roadmap" href="#"><span class="font-body-md text-body-md">Regulatory Roadmap</span></a><a class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="documents" href="#"><span class="font-body-md text-body-md">Documents</span></a><a class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="compliance" href="#"><span class="font-body-md text-body-md">Compliance</span></a><a class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="government-support" href="#"><span class="font-body-md text-body-md">Government Support</span></a></nav></div></div><div class="px-3 pb-5 flex flex-col gap-3"><div class="border-t border-outline-variant pt-3"><div class="px-3 pb-2 font-label-sm text-label-sm text-outline uppercase tracking-wider">System</div><nav class="space-y-1" data-active-classes="bg-primary-container text-on-primary font-semibold"><a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="help" href="#"><span class="font-body-md text-body-md">Help</span></a><a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="settings" href="#"><span class="font-body-md text-body-md">Settings</span></a></nav></div><div class="mx-2 p-2.5 bg-surface-container border border-outline-variant rounded flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-[18px]">policy</span><div class="flex flex-col min-w-0"><span class="font-label-sm text-label-sm text-on-surface font-semibold truncate">Maharashtra</span><span class="font-code-statutory text-code-statutory text-on-surface-variant truncate">State Jurisdiction</span></div></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-20 bg-surface-container-lowest border-b border-outline-variant z-40 px-gutter"><div class="h-full w-full flex items-center justify-between gap-4"><div class="flex items-center gap-3 min-w-0"><img alt="UdyamSetu Emblem" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1U5eqSadtavAmJctLql-kg9BacQgz1cP1P9D8YWzOwK2p4VuzxnZG8HmIs_lhsXmg-au9-TJLsbxb9LBENeZ0Ga26UXAINUrprA5l2oeT3w093Gq5h70dY7B_yj96L0kiVW73TOtvUh2x5gmcqDYCERJxEAELeU79YfDoOYrGpccLfEeNMER45G3AcXhuj2QZQjf9m89oghlre5W3VR7t996WXtWT61b4J4Hm1LtLm-"/><div class="flex flex-col min-w-0"><div class="flex items-center gap-2"><span class="font-headline-sm text-headline-sm text-on-surface">Good morning, ABC Foods</span><span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-secondary-container text-on-secondary-container border border-outline-variant">Active MSME</span></div><span class="font-body-sm text-body-sm text-on-surface-variant truncate">Food Processing • Nashik, Maharashtra | Your business-specific regulatory journey at a glance.</span></div></div><div class="flex items-center gap-3 shrink-0"><button class="flex items-center gap-2 h-10 px-3 bg-surface-container border border-outline-variant rounded hover:bg-surface-container-high transition-colors"><span class="font-label-md text-label-md text-on-surface font-medium">ABC Foods Pvt Ltd</span><span class="material-symbols-outlined text-on-surface-variant text-[18px]">arrow_drop_down</span></button><button aria-label="Notifications" class="relative w-10 h-10 flex items-center justify-center rounded border border-outline-variant bg-surface-container-lowest hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-on-surface-variant text-[20px]">notifications</span><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-secondary ring-2 ring-surface-container-lowest"></span></button><div class="flex items-center gap-2.5 pl-2 border-l border-outline-variant"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="hidden xl:flex flex-col text-left"><span class="font-label-sm text-label-sm text-on-surface font-semibold leading-tight">ABC Foods Admin</span><span class="font-code-statutory text-code-statutory text-on-surface-variant leading-tight">Compliance Officer</span></div></div></div></div></header><main class="relative pt-20 w-full min-h-screen bg-surface px-gutter py-space-lg"><div class="flex flex-col w-full space-y-space-lg">
+<!-- TOP CONTEXT & BREADCRUMBS -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex flex-wrap items-center justify-between gap-y-2">
+<nav class="flex items-center gap-2 font-code-statutory text-code-statutory text-on-surface-variant">
+<a class="hover:text-primary transition-colors" href="#">Overview</a>
+<span class="material-symbols-outlined text-[14px] text-outline-variant">chevron_right</span>
+<span class="text-on-surface font-semibold">Regulatory Roadmap</span>
+<span class="text-outline-variant mx-1">|</span>
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant text-[11px] font-medium tracking-wide">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+          Statutory Mapping Engine v2.4 • Active Profile
+        </span>
+</nav>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Reference ID:</span>
+<span class="font-code-statutory text-code-statutory font-semibold text-primary px-2 py-0.5 bg-surface-container rounded">MH-NSK-2024-F8821</span>
+</div>
+</div>
+<!-- Title & Context Metadata Ribbon -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-2 border-b border-outline-variant">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-primary tracking-tight">Regulatory Roadmap</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-0.5">Personalized requirements for ABC Foods Pvt Ltd</p>
+</div>
+<div class="flex items-center gap-3 bg-surface-container-lowest px-3.5 py-2 rounded border border-outline-variant shadow-sm">
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-secondary text-[20px]">apartment</span>
+<span class="font-label-md text-label-md">Food Processing • Nashik, Maharashtra • Small Enterprise</span>
+</div>
+<div class="h-4 w-px bg-outline-variant"></div>
+<a class="inline-flex items-center gap-1 font-label-sm text-label-sm text-secondary hover:text-primary font-semibold transition-colors" href="#">
+          Edit Business Context
+          <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- REGULATORY PROGRESSION JOURNEY PIPELINE -->
+<div class="bg-surface-container-lowest p-space-md rounded border border-outline-variant shadow-sm">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">timeline</span>
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider">REGULATORY PROGRESSION</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Step 3 of 6</span>
+</div>
+<!-- 6-Stage Timeline Grid -->
+<div class="grid grid-cols-6 gap-2 relative">
+<!-- Continuous back rail -->
+<div class="absolute top-4 left-4 right-4 h-0.5 bg-outline-variant -z-0 hidden md:block"></div>
+<!-- Step 1: BUSINESS -->
+<div class="flex flex-col items-center text-center relative z-10">
+<div class="w-8 h-8 rounded-full bg-secondary text-on-secondary flex items-center justify-center font-code-statutory text-code-statutory font-bold ring-4 ring-surface-container-lowest shadow-sm">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold mt-2">1. BUSINESS</span>
+<span class="font-code-statutory text-code-statutory text-secondary font-medium">Validated</span>
+</div>
+<!-- Step 2: REQUIREMENTS -->
+<div class="flex flex-col items-center text-center relative z-10">
+<div class="w-8 h-8 rounded-full bg-secondary text-on-secondary flex items-center justify-center font-code-statutory text-code-statutory font-bold ring-4 ring-surface-container-lowest shadow-sm">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold mt-2">2. REQUIREMENTS</span>
+<span class="font-code-statutory text-secondary font-medium text-code-statutory">Identified</span>
+</div>
+<!-- Step 3: APPROVALS (Current Active) -->
+<div class="flex flex-col items-center text-center relative z-10">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-code-statutory text-code-statutory font-bold ring-4 ring-surface-container-lowest ring-offset-1 shadow">
+          3
+        </div>
+<span class="font-label-sm text-label-sm text-primary font-bold mt-2">3. APPROVALS</span>
+<span class="inline-flex items-center px-1.5 py-0.2 rounded text-[10px] font-semibold bg-primary-container text-on-primary mt-0.5">CURRENT STAGE</span>
+</div>
+<!-- Step 4: DOCUMENTS -->
+<div class="flex flex-col items-center text-center relative z-10 opacity-75">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-code-statutory text-code-statutory font-medium ring-4 ring-surface-container-lowest">
+          4
+        </div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium mt-2">4. DOCUMENTS</span>
+<span class="font-code-statutory text-code-statutory text-outline">Queued</span>
+</div>
+<!-- Step 5: COMPLIANCE -->
+<div class="flex flex-col items-center text-center relative z-10 opacity-75">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-code-statutory text-code-statutory font-medium ring-4 ring-surface-container-lowest">
+          5
+        </div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium mt-2">5. COMPLIANCE</span>
+<span class="font-code-statutory text-code-statutory text-outline">Upcoming</span>
+</div>
+<!-- Step 6: SUPPORT -->
+<div class="flex flex-col items-center text-center relative z-10 opacity-75">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-code-statutory text-code-statutory font-medium ring-4 ring-surface-container-lowest">
+          6
+        </div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium mt-2">6. SUPPORT</span>
+<span class="font-code-statutory text-code-statutory text-outline">Schemes</span>
+</div>
+</div>
+<!-- Pipeline footnote -->
+<div class="mt-3 pt-2.5 border-t border-surface-variant flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">verified_user</span>
+<span>Stage 3 of 6: Statutory clearances identified based on Maharashtra Industrial Policy 2019 &amp; Nashik Municipal Bylaws.</span>
+</div>
+<span class="font-code-statutory text-code-statutory text-outline">Next sync: Automatic upon submission</span>
+</div>
+</div>
+<!-- TWO-COLUMN WORKSPACE: 65% MAIN CONTENT / 35% SIDE ACTION -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- LEFT COLUMN: APPLICABLE REQUIREMENTS (8 Cols / 66.6%) -->
+<div class="lg:col-span-8 flex flex-col space-y-space-md">
+<!-- Section Title & Filter Tabs -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-surface-container-lowest p-space-md rounded border border-outline-variant">
+<div>
+<div class="flex items-center gap-2">
+<h2 class="font-headline-md text-headline-md text-primary tracking-tight">Applicable Requirements</h2>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-primary-container text-on-primary">
+              3 Priority Clearances
+            </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Identified based on activity: Cereal/Pulse Processing &amp; Commercial Packaging.</p>
+</div>
+<!-- Filter Pills -->
+<div class="inline-flex p-1 bg-surface-container rounded border border-outline-variant text-body-sm font-label-md" role="tablist">
+<button class="px-3 py-1 rounded bg-surface-container-lowest text-primary font-semibold shadow-sm border border-outline-variant/60" role="tab">All (3)</button>
+<button class="px-3 py-1 rounded text-on-surface-variant hover:text-primary transition-colors" role="tab">Statutory (2)</button>
+<button class="px-3 py-1 rounded text-on-surface-variant hover:text-primary transition-colors" role="tab">Municipal (1)</button>
+</div>
+</div>
+<!-- REQUIREMENT CARD 1: FSSAI State License -->
+<article class="bg-surface-container-lowest rounded border border-outline-variant overflow-hidden hover:border-primary/40 transition-colors shadow-sm">
+<div class="p-space-md flex flex-col space-y-space-sm">
+<!-- Card Meta Row -->
+<div class="flex flex-wrap items-start justify-between gap-2">
+<div class="space-y-1">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold tracking-wider uppercase bg-surface-container-high text-on-surface border border-outline-variant">
+                  STATUTORY APPROVAL
+                </span>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold tracking-wider uppercase bg-amber-100 text-amber-900 border border-amber-300">
+                  HIGH PRIORITY
+                </span>
+<span class="font-code-statutory text-code-statutory text-outline">Act: FSS Act, 2006</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary">FSSAI State Manufacturing License / Registration</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">account_balance</span>
+                Food Safety and Standards Authority of India (FoSCoS Maharashtra Portal)
+              </p>
+</div>
+<!-- Pre-screening status chip -->
+<div class="text-right">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded font-code-statutory text-[12px] bg-secondary-container/40 text-on-secondary-container font-semibold border border-secondary/30">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                Dossier Ready: 70%
+              </span>
+</div>
+</div>
+<!-- Why it applies block -->
+<div class="bg-surface-container-low p-3 rounded border border-outline-variant/60 flex items-start gap-2.5">
+<span class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">policy</span>
+<div class="text-body-sm text-on-surface">
+<span class="font-semibold text-primary">Statutory Triggers:</span>
+              Food-processing operations and packaged food manufacturing require mandatory statutory food-safety licensing prior to commercial output in Maharashtra.
+            </div>
+</div>
+<!-- Document Requirements Checklist chips -->
+<div class="space-y-1.5 pt-1">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Mandatory Supporting Records:</span>
+<div class="flex flex-wrap gap-2">
+<span class="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-surface border border-outline-variant font-code-statutory text-code-statutory text-on-surface">
+<span class="material-symbols-outlined text-[14px] text-secondary">check_circle</span>
+                Form B Application
+              </span>
+<span class="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-surface border border-outline-variant font-code-statutory text-code-statutory text-on-surface">
+<span class="material-symbols-outlined text-[14px] text-secondary">check_circle</span>
+                Premises Blueprint Layout
+              </span>
+<span class="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-surface border border-outline-variant font-code-statutory text-code-statutory text-on-surface">
+<span class="material-symbols-outlined text-[14px] text-outline">radio_button_unchecked</span>
+                Installed Machinery List (Horsepower)
+              </span>
+<span class="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-surface border border-outline-variant font-code-statutory text-code-statutory text-on-surface">
+<span class="material-symbols-outlined text-[14px] text-outline">radio_button_unchecked</span>
+                Water Test Analysis Report
+              </span>
+</div>
+</div>
+</div>
+<!-- Card Action Footer -->
+<div class="bg-surface-container px-space-md py-2.5 border-t border-outline-variant flex flex-wrap items-center justify-between gap-3">
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-amber-700 text-[18px]">warning</span>
+<span><strong class="text-on-surface">Action Needed:</strong> Verify Form B horsepower parameters &amp; upload water lab analysis</span>
+</div>
+<button class="inline-flex items-center gap-2 h-9 px-4 rounded bg-primary-container text-on-primary font-label-md text-label-md hover:bg-primary transition-colors">
+<span>VIEW PREREQUISITES</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</article>
+<!-- REQUIREMENT CARD 2: Factory Approval / CTE -->
+<article class="bg-surface-container-lowest rounded border border-outline-variant overflow-hidden hover:border-primary/40 transition-colors shadow-sm">
+<div class="p-space-md flex flex-col space-y-space-sm">
+<!-- Card Meta Row -->
+<div class="flex flex-wrap items-start justify-between gap-2">
+<div class="space-y-1">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold tracking-wider uppercase bg-surface-container-high text-on-surface border border-outline-variant">
+                  ENVIRONMENTAL &amp; SAFETY
+                </span>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold tracking-wider uppercase bg-amber-100 text-amber-900 border border-amber-300">
+                  HIGH PRIORITY
+                </span>
+<span class="font-code-statutory text-code-statutory text-outline">Act: Factories Act, 1948 / Water Act 1974</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary">Factory / Establishment Approval &amp; Consent to Establish (CTE)</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">verified</span>
+                Directorate of Industrial Safety &amp; Health (DISH) / Maharashtra Pollution Control Board (MPCB)
+              </p>
+</div>
+<div class="text-right">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded font-code-statutory text-[12px] bg-surface-container text-on-surface-variant font-semibold border border-outline-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+                Dossier Ready: 35%
+              </span>
+</div>
+</div>
+<!-- Why it applies block -->
+<div class="bg-surface-container-low p-3 rounded border border-outline-variant/60 flex items-start gap-2.5">
+<span class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">factory</span>
+<div class="text-body-sm text-on-surface">
+<span class="font-semibold text-primary">Statutory Triggers:</span>
+              Manufacturing activity at the selected business location (MIDC Ambad, Nashik) with 25+ planned workforce and electrical connected load triggers statutory factory layout approval and Orange-Category CTE.
+            </div>
+</div>
+<!-- Document Requirements Checklist chips -->
+<div class="space-y-1.5 pt-1">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Mandatory Supporting Records:</span>
+<div class="flex flex-wrap gap-2">
+<span class="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-surface border border-outline-variant font-code-statutory text-code-statutory text-on-surface">
+<span class="material-symbols-outlined text-[14px] text-secondary">check_circle</span>
+                MIDC Allotment / Lease Deed
+              </span>
+<span class="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-surface border border-outline-variant font-code-statutory text-code-statutory text-on-surface">
+<span class="material-symbols-outlined text-[14px] text-outline">radio_button_unchecked</span>
+                Architect-Certified Factory Plan
+              </span>
+<span class="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-surface border border-outline-variant font-code-statutory text-code-statutory text-on-surface">
+<span class="material-symbols-outlined text-[14px] text-outline">radio_button_unchecked</span>
+                Effluent Treatment Plant (ETP) Scheme
+              </span>
+<span class="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-surface border border-outline-variant font-code-statutory text-code-statutory text-on-surface">
+<span class="material-symbols-outlined text-[14px] text-outline">radio_button_unchecked</span>
+                MSEDCL Connected Load Sanction
+              </span>
+</div>
+</div>
+</div>
+<!-- Card Action Footer -->
+<div class="bg-surface-container px-space-md py-2.5 border-t border-outline-variant flex flex-wrap items-center justify-between gap-3">
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-outline text-[18px]">pending_actions</span>
+<span><strong class="text-on-surface">Action Needed:</strong> Complete environmental checklist for MPCB single-window entry</span>
+</div>
+<button class="inline-flex items-center gap-2 h-9 px-4 rounded bg-surface-container-lowest border border-outline text-primary font-label-md text-label-md hover:bg-surface-container-high transition-colors">
+<span>VIEW PREREQUISITES</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</article>
+<!-- REQUIREMENT CARD 3: Local Municipal Registration (Gumasta) -->
+<article class="bg-surface-container-lowest rounded border border-outline-variant overflow-hidden hover:border-primary/40 transition-colors shadow-sm">
+<div class="p-space-md flex flex-col space-y-space-sm">
+<!-- Card Meta Row -->
+<div class="flex flex-wrap items-start justify-between gap-2">
+<div class="space-y-1">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold tracking-wider uppercase bg-surface-container-high text-on-surface border border-outline-variant">
+                  MUNICIPAL JURISDICTION
+                </span>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold tracking-wider uppercase bg-surface-container-high text-on-surface-variant border border-outline-variant">
+                  MEDIUM PRIORITY
+                </span>
+<span class="font-code-statutory text-code-statutory text-outline">Act: Maharashtra Shops &amp; Est. Act, 2017</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary">Local Business / Premises Requirement (Gumasta License)</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">location_city</span>
+                Nashik Municipal Corporation / Aaple Sarkar Direct Integration
+              </p>
+</div>
+<div class="text-right">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded font-code-statutory text-[12px] bg-secondary-container/40 text-on-secondary-container font-semibold border border-secondary/30">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                Dossier Ready: 90%
+              </span>
+</div>
+</div>
+<!-- Why it applies block -->
+<div class="bg-surface-container-low p-3 rounded border border-outline-variant/60 flex items-start gap-2.5">
+<span class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">storefront</span>
+<div class="text-body-sm text-on-surface">
+<span class="font-semibold text-primary">Statutory Triggers:</span>
+              Commercial enterprise operation within Nashik Municipal Corporation boundaries requires formal intimation (Form A) for administrative head office and processing base under municipal bylaws.
+            </div>
+</div>
+<!-- Document Requirements Checklist chips -->
+<div class="space-y-1.5 pt-1">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Mandatory Supporting Records:</span>
+<div class="flex flex-wrap gap-2">
+<span class="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-surface border border-outline-variant font-code-statutory text-code-statutory text-on-surface">
+<span class="material-symbols-outlined text-[14px] text-secondary">check_circle</span>
+                PAN &amp; Aadhaar of Directors
+              </span>
+<span class="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-surface border border-outline-variant font-code-statutory text-code-statutory text-on-surface">
+<span class="material-symbols-outlined text-[14px] text-secondary">check_circle</span>
+                Registered Tenancy Agreement
+              </span>
+<span class="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-surface border border-outline-variant font-code-statutory text-code-statutory text-on-surface">
+<span class="material-symbols-outlined text-[14px] text-secondary">check_circle</span>
+                Municipal Property Tax Receipt
+              </span>
+<span class="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-surface border border-outline-variant font-code-statutory text-code-statutory text-on-surface">
+<span class="material-symbols-outlined text-[14px] text-outline">radio_button_unchecked</span>
+                Frontage Signboard Photo in Marathi (Devanagari)
+              </span>
+</div>
+</div>
+</div>
+<!-- Card Action Footer -->
+<div class="bg-surface-container px-space-md py-2.5 border-t border-outline-variant flex flex-wrap items-center justify-between gap-3">
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-secondary text-[18px]">verified</span>
+<span><strong class="text-on-surface">Ready for Submission:</strong> 3 of 4 documents parsed and verified</span>
+</div>
+<button class="inline-flex items-center gap-2 h-9 px-4 rounded bg-surface-container-lowest border border-outline text-primary font-label-md text-label-md hover:bg-surface-container-high transition-colors">
+<span>VIEW PREREQUISITES</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</article>
+</div>
+<!-- RIGHT COLUMN: ACTION STACK & INSTITUTIONAL HANDOFF (4 Cols / 33.3%) -->
+<div class="lg:col-span-4 flex flex-col space-y-space-md">
+<!-- ACTION PANEL: WHAT YOU NEED TO DO -->
+<section class="bg-surface-container-lowest rounded border border-outline-variant shadow-sm overflow-hidden">
+<div class="p-space-md border-b border-outline-variant bg-surface-container-low">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-headline-sm text-primary">What You Need to Do</h3>
+<span class="w-6 h-6 rounded-full bg-amber-100 text-amber-900 border border-amber-300 flex items-center justify-center font-code-statutory text-[12px] font-bold">
+              3
+            </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Immediate prerequisites to unlock submission dossiers.</p>
+</div>
+<div class="divide-y divide-surface-variant">
+<!-- Item 1 -->
+<div class="p-3.5 hover:bg-surface transition-colors flex items-start gap-3">
+<div class="w-6 h-6 rounded bg-surface-container-high text-primary flex items-center justify-center font-code-statutory text-code-statutory font-bold shrink-0 mt-0.5">
+              1
+            </div>
+<div class="flex-1 min-w-0">
+<a class="font-label-md text-label-md text-primary font-semibold hover:underline block truncate" href="#">
+                Confirm production capacity (&lt;1 MT/day)
+              </a>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+                Required to determine State License vs Central Registration tier under FoSCoS.
+              </p>
+<div class="mt-2 flex items-center gap-2">
+<span class="font-code-statutory text-[11px] text-outline">FSSAI Prerequisite</span>
+<span class="text-outline-variant">•</span>
+<a class="font-label-sm text-label-sm text-secondary font-semibold hover:underline" href="#">Resolve Parameter →</a>
+</div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="p-3.5 hover:bg-surface transition-colors flex items-start gap-3">
+<div class="w-6 h-6 rounded bg-surface-container-high text-primary flex items-center justify-center font-code-statutory text-code-statutory font-bold shrink-0 mt-0.5">
+              2
+            </div>
+<div class="flex-1 min-w-0">
+<a class="font-label-md text-label-md text-primary font-semibold hover:underline block truncate" href="#">
+                Upload certified premises site layout
+              </a>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+                Architect signed drawing required by MPCB Consent to Establish protocol.
+              </p>
+<div class="mt-2 flex items-center gap-2">
+<span class="font-code-statutory text-[11px] text-outline">MPCB Clearance</span>
+<span class="text-outline-variant">•</span>
+<a class="font-label-sm text-label-sm text-secondary font-semibold hover:underline" href="#">Upload PDF →</a>
+</div>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="p-3.5 hover:bg-surface transition-colors flex items-start gap-3">
+<div class="w-6 h-6 rounded bg-surface-container-high text-primary flex items-center justify-center font-code-statutory text-code-statutory font-bold shrink-0 mt-0.5">
+              3
+            </div>
+<div class="flex-1 min-w-0">
+<a class="font-label-md text-label-md text-primary font-semibold hover:underline block truncate" href="#">
+                Verify worker count thresholds
+              </a>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+                Determine applicability under Section 2(m)(i) of Maharashtra Factories Rules.
+              </p>
+<div class="mt-2 flex items-center gap-2">
+<span class="font-code-statutory text-[11px] text-outline">DISH Compliance</span>
+<span class="text-outline-variant">•</span>
+<a class="font-label-sm text-label-sm text-secondary font-semibold hover:underline" href="#">Check Count →</a>
+</div>
+</div>
+</div>
+</div>
+<div class="p-space-md bg-surface-container border-t border-outline-variant">
+<button class="w-full h-10 rounded bg-secondary text-on-secondary font-label-md text-label-md font-semibold hover:bg-on-secondary-container transition-colors shadow-sm flex items-center justify-center gap-2">
+<span>VIEW ALL CONTEXT ACTIONS</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</section>
+<!-- INSTITUTIONAL PROTOCOL CARD: OFFICIAL SERVICE HANDOFF -->
+<section class="bg-surface-container-low rounded border-l-4 border-l-primary-container border-y border-r border-outline-variant p-space-md shadow-sm space-y-3.5">
+<div class="flex items-center gap-2.5 pb-2 border-b border-outline-variant">
+<span class="material-symbols-outlined text-primary text-[22px]">assured_workload</span>
+<div>
+<h4 class="font-headline-sm text-[15px] font-bold text-primary leading-tight">Official Service Handoff Protocol</h4>
+<span class="font-code-statutory text-code-statutory text-on-surface-variant">Statutory Compliance Boundary</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface leading-relaxed">
+          UdyamSetu organizes, evaluates, and compiles your statutory prerequisites. Final statutory filings, payment of state dues, and legally binding licenses are processed exclusively through authorized Government of Maharashtra portals.
+        </p>
+<!-- Visual Flow Diagram -->
+<div class="bg-surface-container-lowest p-2.5 rounded border border-outline-variant font-code-statutory text-[11px]">
+<div class="grid grid-cols-4 gap-1 text-center items-center">
+<div class="p-1 rounded bg-surface text-primary font-bold">1. Assess</div>
+<div class="text-outline-variant">→</div>
+<div class="p-1 rounded bg-surface text-primary font-bold">2. Dossier</div>
+<div class="text-outline-variant">→</div>
+</div>
+<div class="grid grid-cols-2 gap-2 mt-1.5 text-center">
+<div class="p-1 rounded bg-primary-container text-on-primary font-semibold truncate">
+              3. MAITRI / FoSCoS
+            </div>
+<div class="p-1 rounded bg-secondary text-on-secondary font-semibold truncate">
+              4. Legal Grant
+            </div>
+</div>
+</div>
+<div class="bg-surface-container-highest/60 p-2.5 rounded text-on-surface font-body-sm text-[12px] leading-tight">
+<strong>Mandate Notice:</strong> UdyamSetu does not levy regulatory application fees. Pre-cleared packages export in statutory schema with SHA-256 verification.
+        </div>
+<!-- Handoff Action Links -->
+<div class="pt-1 flex flex-col gap-2">
+<a class="inline-flex items-center justify-between w-full h-9 px-3 rounded bg-surface-container-lowest border border-primary text-primary font-label-md text-label-md hover:bg-surface-container transition-colors" href="https://maitri.mahaonline.gov.in" rel="noopener noreferrer" target="_blank">
+<span class="flex items-center gap-1.5 font-semibold">
+<span class="material-symbols-outlined text-[16px] text-secondary">open_in_new</span>
+              MAITRI Single Window Portal
+            </span>
+<span class="font-code-statutory text-[11px] text-outline">GoM External</span>
+</a>
+<a class="inline-flex items-center justify-between w-full h-9 px-3 rounded bg-surface-container-lowest border border-outline-variant text-on-surface font-label-md text-label-md hover:bg-surface-container transition-colors" href="https://foscos.fssai.gov.in" rel="noopener noreferrer" target="_blank">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">open_in_new</span>
+              FSSAI FoSCoS Regulatory Portal
+            </span>
+<span class="font-code-statutory text-[11px] text-outline">GoI External</span>
+</a>
+</div>
+</section>
+<!-- REGULATORY HELPDESK ASSISTANCE -->
+<div class="bg-surface-container-lowest p-space-md rounded border border-outline-variant flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-[24px]">support_agent</span>
+<div>
+<div class="font-label-md text-label-md text-primary font-semibold">Need Clarification?</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">District Industries Centre (DIC) Nashik Liaison</div>
+</div>
+</div>
+<button class="px-3 py-1.5 rounded border border-outline-variant hover:bg-surface-container font-label-sm text-label-sm text-primary font-semibold">
+          Contact
+        </button>
+</div>
+</div>
+</div>
+</div></main></div></body></html>
