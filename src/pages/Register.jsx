@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useApp } from "../context/AppContext";
 import {
@@ -16,7 +16,13 @@ import {
 
 export default function Register() {
   const navigate = useNavigate();
-  const { register } = useApp();
+  const { register, user } = useApp();
+
+  React.useEffect(() => {
+    if (user?.id) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [user, navigate]);
 
   const [fullName, setFullName] = useState("Rajesh Sharma");
   const [workEmail, setWorkEmail] = useState("rajesh.sharma@abcfoods.in");
@@ -47,6 +53,10 @@ export default function Register() {
       setAuthError("Passwords do not match!");
       return;
     }
+    if (password.length < 6) {
+      setAuthError("Password must be at least 6 characters long.");
+      return;
+    }
     setAuthError("");
     setIsLoading(true);
     try {
@@ -54,7 +64,14 @@ export default function Register() {
       // Flow: Create Account -> Business Profile
       navigate("/business-profile");
     } catch (err) {
-      setAuthError(err.message || "Failed to create account. Please verify your details.");
+      const msg = err.message || "";
+      if (msg.includes("already registered") || msg.includes("already exists")) {
+        setAuthError("An account with this email already exists. Please sign in instead.");
+      } else if (msg.includes("weak") || msg.includes("Password")) {
+        setAuthError("Please choose a stronger password with letters, numbers, and symbols.");
+      } else {
+        setAuthError("Could not complete registration. Please verify your details or try again.");
+      }
     } finally {
       setIsLoading(false);
     }

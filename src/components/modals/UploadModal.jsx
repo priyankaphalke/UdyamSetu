@@ -85,7 +85,7 @@ export default function UploadModal() {
                 Pre-Screen & Upload Regulatory Document
               </h3>
               <p className="font-body-sm text-[11px] text-on-surface-variant">
-                Statutory Dossier Ingestion • Automated Quality Pre-Check
+                Document Verification • Automated Pre-Screening
               </p>
             </div>
           </div>
@@ -210,7 +210,7 @@ export default function UploadModal() {
               <div className="flex items-center justify-between">
                 <span className="font-bold text-secondary flex items-center gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-secondary" />
-                  Pre-Screening Passed (Ready for Dossier)
+                  Pre-Screening Passed (Ready for Submission)
                 </span>
                 <span className="font-mono bg-secondary text-on-secondary px-1.5 py-0.5 rounded font-bold">
                   {screeningResults.score}% Match
@@ -238,7 +238,7 @@ export default function UploadModal() {
               disabled={!docName}
               className="h-10 px-5 rounded bg-primary-container text-on-primary text-sm font-semibold hover:bg-primary transition-colors disabled:opacity-50"
             >
-              Save to Dossier
+              Save Document
             </button>
           </div>
         </form>

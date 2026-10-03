@@ -71,6 +71,7 @@ async function runComprehensiveAudit() {
   // 4. VERIFY ALL 9 SCREENS MODULES
   console.log('\n[4] VERIFYING ALL 9 APPLICATION SCREENS (MODULE INTEGRITY)');
   const screenPaths = [
+    { name: '0. Public Portal Home', path: './src/pages/Home.jsx' },
     { name: '1. Login', path: './src/pages/Login.jsx' },
     { name: '2. Create Account', path: './src/pages/Register.jsx' },
     { name: '3. Business Profile', path: './src/pages/BusinessProfile.jsx' },

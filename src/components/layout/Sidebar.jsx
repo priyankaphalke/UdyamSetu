@@ -26,12 +26,12 @@ export default function Sidebar() {
     { label: "Regulatory Roadmap", path: "/roadmap", icon: GitFork },
     { label: "Documents", path: "/documents", icon: Files },
     { label: "Compliance", path: "/compliance", icon: CalendarCheck2 },
-    { label: "Government Support", path: "/government-support", icon: HandCoins },
+    { label: "Government Support", path: "/dashboard/government-support", icon: HandCoins },
   ];
 
   const handleLogout = async () => {
     await logout();
-    navigate("/login");
+    navigate("/login", { replace: true });
   };
 
   return (
@@ -98,6 +98,7 @@ export default function Sidebar() {
               <span>DIC Helpdesk</span>
             </NavLink>
             <button
+              type="button"
               onClick={handleLogout}
               className="w-full flex items-center gap-3 px-3 py-2 rounded text-body-md text-red-700 hover:bg-red-50 transition-colors text-left"
             >

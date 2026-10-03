@@ -291,10 +291,25 @@ function transformRequirementFromDB(item) {
 export const apiService = {
   // Auth API
   async getCurrentUser() {
-    if (isSupabaseConfigured) {
+    if (isSupabaseConfigured && supabase) {
       try {
-        const { data: { user }, error } = await supabase.auth.getUser();
-        if (error || !user) return null;
+        // 1. Check local session from Supabase client (persistSession: true)
+        const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+        let user = sessionData?.session?.user;
+
+        // 2. If no active session from getSession, check getUser()
+        if (!user) {
+          const { data: userData, error: userError } = await supabase.auth.getUser();
+          if (!userError && userData?.user) {
+            user = userData.user;
+          }
+        }
+
+        // 3. Fallback to stored auth user before concluding user is absent
+        if (!user) {
+          const stored = getStoredItem(STORAGE_KEYS.AUTH_USER, null);
+          return stored || null;
+        }
 
         // Fetch corresponding profile record from Supabase
         const { data: profile } = await supabase
@@ -310,10 +325,12 @@ export const apiService = {
           role: profile?.role || "Enterprise Administrator",
           phone: profile?.phone || "",
         };
+        setStoredItem(STORAGE_KEYS.AUTH_USER, formatted);
         return formatted;
       } catch (err) {
         console.error("Supabase auth check failed:", err);
-        return null;
+        const stored = getStoredItem(STORAGE_KEYS.AUTH_USER, null);
+        return stored || null;
       }
     }
     // Offline client storage fallback only when Supabase is not configured

@@ -6,16 +6,11 @@ import {
   Building2,
   MapPin,
   Factory,
-  BadgeCheck,
   Save,
   ArrowRight,
-  ShieldAlert,
-  Sparkles,
-  RefreshCw,
-  Layers,
-  HelpCircle,
-  FileSpreadsheet,
-  Cpu,
+  RotateCcw,
+  CheckCircle2,
+  Info,
 } from "lucide-react";
 
 export default function BusinessProfile() {
@@ -32,628 +27,358 @@ export default function BusinessProfile() {
   } = useApp();
 
   const [formData, setFormData] = useState({
-    legalName: businessProfile?.legalName || "",
-    brandName: businessProfile?.brandName || "",
-    sector: businessProfile?.sector || "Manufacturing",
-    sectorCategory: businessProfile?.sectorCategory || "Industrial Manufacturing",
+    legalName: businessProfile?.legalName || "ABC Foods Pvt. Ltd.",
+    brandName: businessProfile?.brandName || "ABC Foods",
+    sector: businessProfile?.sector || "Food Processing",
     classification: businessProfile?.classification || "Small",
     stage: businessProfile?.stage || "New Business",
     state: businessProfile?.state || "Maharashtra",
     district: businessProfile?.district || "Nashik",
-    industrialArea: businessProfile?.industrialArea || "",
-    plotNumber: businessProfile?.plotNumber || "",
-    pinCode: businessProfile?.pinCode || "",
-    operations: businessProfile?.operations || ["Machining & Fabrication"],
+    industrialArea: businessProfile?.industrialArea || "Ambad MIDC",
+    operations: businessProfile?.operations || ["Manufacturing", "Packaging", "Storage"],
     workforceCount: businessProfile?.workforceCount ?? 20,
     connectedLoadHP: businessProfile?.connectedLoadHP ?? 25,
-    plantMachineryInvestment: businessProfile?.plantMachineryInvestment ?? 10000000,
     annualTurnoverEstimated: businessProfile?.annualTurnoverEstimated ?? 30000000,
-    udyamNumber: businessProfile?.udyamNumber || "",
-    cin: businessProfile?.cin || "",
-    pan: businessProfile?.pan || "",
-    gstin: businessProfile?.gstin || "",
-    contactPerson: businessProfile?.contactPerson || "",
-    designation: businessProfile?.designation || "Managing Director",
-    email: businessProfile?.email || "",
-    phone: businessProfile?.phone || "",
+    contactPerson: businessProfile?.contactPerson || "Rajesh Sharma",
+    email: businessProfile?.email || "rajesh.sharma@abcfoods.in",
+    phone: businessProfile?.phone || "+91 98230 11223",
   });
 
-  const [isSaving, setIsSaving] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [successMsg, setSuccessMsg] = useState(false);
 
-  // Sync formData whenever businessProfile updates from Supabase or context
   useEffect(() => {
     if (businessProfile) {
-      setFormData({
-        legalName: businessProfile.legalName || "",
-        brandName: businessProfile.brandName || "",
-        sector: businessProfile.sector || "Manufacturing",
-        sectorCategory: businessProfile.sectorCategory || `${businessProfile.sector || "Industrial"} Operations`,
-        classification: businessProfile.classification || "Small",
-        stage: businessProfile.stage || "New Business",
-        state: businessProfile.state || "Maharashtra",
-        district: businessProfile.district || "Nashik",
-        industrialArea: businessProfile.industrialArea || "",
-        plotNumber: businessProfile.plotNumber || "",
-        pinCode: businessProfile.pinCode || "",
-        operations: businessProfile.operations || [],
-        workforceCount: businessProfile.workforceCount ?? 20,
-        connectedLoadHP: businessProfile.connectedLoadHP ?? 25,
-        plantMachineryInvestment: businessProfile.plantMachineryInvestment ?? 10000000,
-        annualTurnoverEstimated: businessProfile.annualTurnoverEstimated ?? 30000000,
-        udyamNumber: businessProfile.udyamNumber || "",
-        cin: businessProfile.cin || "",
-        pan: businessProfile.pan || "",
-        gstin: businessProfile.gstin || "",
-        contactPerson: businessProfile.contactPerson || "",
-        designation: businessProfile.designation || "Managing Director",
-        email: businessProfile.email || "",
-        phone: businessProfile.phone || "",
-      });
+      setFormData((prev) => ({
+        ...prev,
+        ...businessProfile,
+        operations: Array.isArray(businessProfile.operations)
+          ? businessProfile.operations
+          : ["Manufacturing", "Packaging", "Storage"],
+      }));
     }
   }, [businessProfile]);
 
-  // When industry changes, reset operations if previous operations don't match the new sector
-  const handleSectorChange = (newSector) => {
-    const availableOps = INDUSTRY_OPERATIONS_MAP[newSector] || INDUSTRY_OPERATIONS_MAP["Other"];
-    setFormData((prev) => ({
-      ...prev,
-      sector: newSector,
-      // Default to first 2-3 available operations
-      operations: availableOps.slice(0, 3),
-      sectorCategory: `${newSector} Operations & Services`,
-    }));
-  };
+  // Available operations for the selected sector
+  const availableOps =
+    INDUSTRY_OPERATIONS_MAP?.[formData.sector] || [
+      "Manufacturing",
+      "Packaging",
+      "Storage",
+      "Cold Storage",
+      "Wholesale Distribution",
+      "Retail Sale",
+      "Import / Export",
+    ];
 
   const handleOperationToggle = (op) => {
     setFormData((prev) => {
       const exists = prev.operations.includes(op);
-      return {
-        ...prev,
-        operations: exists
-          ? prev.operations.filter((item) => item !== op)
-          : [...prev.operations, op],
-      };
-    });
-  };
-
-  const handleInputChange = (field, value) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
-
-  const handleLoadPreset = async (key) => {
-    await loadDemoProfile(key);
-  };
-
-  const handleStartBlank = () => {
-    setFormData({
-      legalName: "",
-      brandName: "",
-      sector: "Manufacturing",
-      sectorCategory: "Industrial Manufacturing",
-      classification: "Micro",
-      stage: "Idea / Planning",
-      state: "Maharashtra",
-      district: "Pune",
-      industrialArea: "",
-      plotNumber: "",
-      pinCode: "",
-      operations: ["Machining & Fabrication"],
-      workforceCount: 10,
-      connectedLoadHP: 15,
-      plantMachineryInvestment: 5000000,
-      annualTurnoverEstimated: 15000000,
-      udyamNumber: "",
-      cin: "",
-      pan: "",
-      gstin: "",
-      contactPerson: "",
-      designation: "Proprietor / Director",
-      email: "",
-      phone: "",
+      const updated = exists
+        ? prev.operations.filter((o) => o !== op)
+        : [...prev.operations, op];
+      return { ...prev, operations: updated.length ? updated : [op] };
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.legalName) {
-      alert("Please enter a Business Name");
-      return;
-    }
-    setIsSaving(true);
+    setSaving(true);
     try {
       await updateProfile(formData);
-      // Flow: Business Profile -> Dashboard
-      navigate("/dashboard");
+      setSuccessMsg(true);
+      setTimeout(() => {
+        navigate("/roadmap");
+      }, 500);
+    } catch (err) {
+      console.error("Error saving business profile:", err);
     } finally {
-      setIsSaving(false);
+      setSaving(false);
     }
   };
 
-  const currentAvailableOperations =
-    INDUSTRY_OPERATIONS_MAP[formData.sector] || INDUSTRY_OPERATIONS_MAP["Other"];
-
   return (
     <AppLayout>
-      <div className="flex flex-col space-y-space-lg max-w-6xl mx-auto pb-12">
-        {/* Breadcrumb & Phase Indicator */}
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-outline-variant pb-3">
-          <div className="flex items-center gap-2 font-code-statutory text-code-statutory text-on-surface-variant">
-            <span>Overview</span>
-            <span className="text-outline-variant">/</span>
-            <span className="text-primary font-semibold">Business Profile Configuration</span>
-            <span className="text-outline-variant">|</span>
-            <span className="px-2 py-0.5 rounded bg-primary-fixed text-primary-container font-semibold text-[11px]">
-              Step 2 of 2 (Enterprise Mapping Engine)
-            </span>
-          </div>
-          <div className="flex items-center gap-2 text-xs text-outline">
-            <span>Reference ID:</span>
-            <span className="font-mono font-bold text-primary px-2 py-0.5 bg-surface-container rounded">
-              {businessProfile?.referenceId || "MH-2024-REG"}
-            </span>
-          </div>
-        </div>
-
-        {/* DEMO DATA NOTICE & PRESET SWITCHER */}
-        <div className="p-4 rounded bg-surface-container-low border border-outline-variant/60 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-3">
-          <div className="flex items-start gap-3">
-            <div className="w-8 h-8 rounded bg-primary-container text-on-primary flex items-center justify-center shrink-0 mt-0.5">
-              <Sparkles className="w-4 h-4 text-secondary-container" />
-            </div>
+      <div className="max-w-4xl mx-auto space-y-6">
+        {/* Page Heading */}
+        <div className="bg-white border border-[#D8DEE4] rounded p-5 sm:p-6 shadow-xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#D8DEE4]">
             <div>
-              <div className="flex items-center gap-2">
-                <span className="font-label-md text-xs font-bold uppercase text-primary tracking-wider">
-                  Configurable Enterprise Profile
-                </span>
-                {businessProfile?.isDemo !== false && (
-                  <span className="px-2 py-0.2 rounded text-[10px] font-mono font-bold bg-amber-100 text-amber-900 border border-amber-300 uppercase">
-                    Sample Demo Data Active
-                  </span>
-                )}
-              </div>
-              <p className="text-xs text-on-surface-variant mt-0.5">
-                UdyamSetu supports all industries across Maharashtra. You can configure your own business profile below, or switch between pre-configured sector templates.
+              <span className="text-[11px] font-bold text-[#0B4F71] uppercase tracking-wider px-2 py-0.5 rounded bg-[#e3f0f8] border border-[#b8d7eb]">
+                Business Information
+              </span>
+              <h1 className="text-xl sm:text-2xl font-bold text-[#12304A] font-serif mt-1.5">
+                Tell us about your business
+              </h1>
+              <p className="text-xs sm:text-sm text-[#495057] mt-0.5">
+                Enter your basic business details to map your applicable statutory requirements, necessary documents, and compliance schedule in Maharashtra.
               </p>
             </div>
+
+            {/* Quick Demo Sample Picker */}
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={() => {
+                  loadDemoProfile("abc_foods");
+                  setSuccessMsg(true);
+                  setTimeout(() => setSuccessMsg(false), 2000);
+                }}
+                className="px-3 py-1.5 rounded bg-[#F5F7F8] hover:bg-[#e3f0f8] border border-[#D8DEE4] text-xs font-semibold text-[#12304A] transition-colors"
+                title="Load sample Nashik Food Processing profile"
+              >
+                Reset to ABC Foods Demo
+              </button>
+            </div>
           </div>
 
-          {/* Quick Demo Template Switcher */}
-          <div className="flex items-center gap-2 flex-wrap shrink-0">
-            <span className="text-[11px] font-bold text-outline uppercase tracking-wider">
-              Presets:
-            </span>
-            <button
-              type="button"
-              onClick={() => handleLoadPreset("abc_foods")}
-              className="px-2.5 py-1 text-xs bg-surface-container-lowest border border-outline-variant rounded hover:border-primary text-primary font-medium"
-            >
-              ABC Foods (Food Processing)
-            </button>
-            <button
-              type="button"
-              onClick={() => handleLoadPreset("pune_tech")}
-              className="px-2.5 py-1 text-xs bg-surface-container-lowest border border-outline-variant rounded hover:border-primary text-primary font-medium"
-            >
-              CloudSoft (IT / Software)
-            </button>
-            <button
-              type="button"
-              onClick={() => handleLoadPreset("nagpur_mfg")}
-              className="px-2.5 py-1 text-xs bg-surface-container-lowest border border-outline-variant rounded hover:border-primary text-primary font-medium"
-            >
-              Vidarbha Forging (Mfg)
-            </button>
-            <button
-              type="button"
-              onClick={handleStartBlank}
-              className="px-2.5 py-1 text-xs bg-secondary text-on-secondary rounded hover:bg-on-secondary-container font-semibold"
-            >
-              + Create From Scratch
-            </button>
-          </div>
+          {successMsg && (
+            <div className="mt-4 p-3 rounded bg-[#e1f5ee] border border-[#a2e0cb] text-[#176B55] text-xs flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 shrink-0" />
+              <span>Business profile saved. Updating regulatory journey...</span>
+            </div>
+          )}
         </div>
 
-        {/* Page Title & Context Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <h1 className="font-headline-lg text-[26px] text-primary tracking-tight font-bold">
-              Business Profile & Regulatory Parameters
-            </h1>
-            <p className="font-body-md text-sm text-on-surface-variant mt-0.5">
-              Configuring your sector, scale, and operations generates your business-specific regulatory roadmap, mandatory documents, compliance calendar, and government subsidies.
-            </p>
-          </div>
-        </div>
-
-        {/* MAIN FORM */}
-        <form onSubmit={handleSubmit} className="space-y-space-md">
-          {/* SECTION 1: CORE BUSINESS ATTRIBUTES (THE 6 REQUIRED FIELDS) */}
-          <section className="bg-surface-container-lowest rounded border border-outline-variant p-space-md shadow-xs">
-            <div className="flex items-center gap-2.5 pb-3 border-b border-outline-variant mb-4">
-              <Building2 className="w-5 h-5 text-primary" />
-              <div>
-                <h3 className="font-headline-sm text-base font-bold text-primary">
-                  1. Enterprise Core Identity & Sector
-                </h3>
-                <p className="text-xs text-on-surface-variant">
-                  Defines statutory department jurisdiction and legal clearance classification.
-                </p>
-              </div>
+        {/* Main Simple Form */}
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="bg-white border border-[#D8DEE4] rounded p-5 sm:p-6 shadow-xs space-y-5">
+            {/* Field: Business Legal Name */}
+            <div>
+              <label className="block text-xs font-bold text-[#12304A] uppercase tracking-wider mb-1">
+                Business Legal Name *
+              </label>
+              <input
+                type="text"
+                required
+                value={formData.legalName}
+                onChange={(e) => setFormData({ ...formData, legalName: e.target.value })}
+                placeholder="e.g. ABC Foods Pvt. Ltd."
+                className="w-full px-3.5 py-2.5 rounded border border-[#D8DEE4] bg-white text-sm text-[#263238] focus:outline-hidden focus:border-[#0B4F71]"
+              />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {/* 1. Business Name */}
-              <div className="lg:col-span-2">
-                <label className="block font-label-md text-xs font-semibold text-on-surface mb-1">
-                  1. Business Name / Entity Name <span className="text-red-600">*</span>
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.legalName}
-                  onChange={(e) => {
-                    handleInputChange("legalName", e.target.value);
-                    if (!formData.brandName || formData.brandName === formData.legalName) {
-                      handleInputChange("brandName", e.target.value);
-                    }
-                  }}
-                  placeholder="e.g. Acme Precision Tools Pvt. Ltd."
-                  className="w-full h-10 px-3 bg-surface-container-lowest border border-outline-variant rounded text-sm text-on-surface font-medium focus:outline-none focus:border-primary-container"
-                />
-              </div>
-
-              {/* Trade / Brand Name */}
+            {/* Grid: Industry & Location */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Field 1: Industry */}
               <div>
-                <label className="block font-label-md text-xs font-semibold text-on-surface mb-1">
-                  Trading Name / Brand
-                </label>
-                <input
-                  type="text"
-                  value={formData.brandName}
-                  onChange={(e) => handleInputChange("brandName", e.target.value)}
-                  placeholder="e.g. Acme Tools"
-                  className="w-full h-10 px-3 bg-surface-container-lowest border border-outline-variant rounded text-sm text-on-surface focus:outline-none focus:border-primary-container"
-                />
-              </div>
-
-              {/* 2. Industry / Sector */}
-              <div>
-                <label className="block font-label-md text-xs font-semibold text-on-surface mb-1">
-                  2. Industry / Sector <span className="text-red-600">*</span>
+                <label className="block text-xs font-bold text-[#12304A] uppercase tracking-wider mb-1">
+                  Industry *
                 </label>
                 <select
                   value={formData.sector}
-                  onChange={(e) => handleSectorChange(e.target.value)}
-                  className="w-full h-10 px-3 bg-surface-container-lowest border border-outline-variant rounded text-sm text-on-surface font-semibold focus:outline-none focus:border-primary-container"
+                  onChange={(e) => setFormData({ ...formData, sector: e.target.value })}
+                  className="w-full px-3.5 py-2.5 rounded border border-[#D8DEE4] bg-white text-sm text-[#263238] focus:outline-hidden focus:border-[#0B4F71]"
                 >
-                  {INDUSTRY_SECTORS.map((sec) => (
-                    <option key={sec} value={sec}>
-                      {sec}
+                  {(INDUSTRY_SECTORS || [
+                    "Food Processing",
+                    "Manufacturing",
+                    "Textiles",
+                    "Pharmaceuticals",
+                    "IT / Software",
+                    "Agriculture / Agro-processing",
+                    "Other",
+                  ]).map((sector) => (
+                    <option key={sector} value={sector}>
+                      {sector}
                     </option>
                   ))}
                 </select>
-                <span className="text-[11px] text-secondary font-medium mt-0.5 block">
-                  Maps statutory bodies (FSSAI, DISH, MPCB, STPI, RERA)
+                <span className="text-[11px] text-[#8c96a0] mt-1 block">
+                  Determines statutory clearances like FSSAI, DISH, and pollution categories.
                 </span>
               </div>
 
-              {/* 3. Business Stage */}
+              {/* Field 2: Location */}
               <div>
-                <label className="block font-label-md text-xs font-semibold text-on-surface mb-1">
-                  3. Business Stage <span className="text-red-600">*</span>
+                <label className="block text-xs font-bold text-[#12304A] uppercase tracking-wider mb-1">
+                  Location (District in Maharashtra) *
+                </label>
+                <select
+                  value={formData.district}
+                  onChange={(e) => setFormData({ ...formData, district: e.target.value })}
+                  className="w-full px-3.5 py-2.5 rounded border border-[#D8DEE4] bg-white text-sm text-[#263238] focus:outline-hidden focus:border-[#0B4F71]"
+                >
+                  {(MAHARASHTRA_DISTRICTS || [
+                    "Nashik",
+                    "Pune",
+                    "Mumbai City",
+                    "Mumbai Suburban",
+                    "Thane",
+                    "Nagpur",
+                    "Chhatrapati Sambhajinagar",
+                    "Kolhapur",
+                    "Solapur",
+                    "Satara",
+                    "Ahmednagar",
+                    "Jalgaon",
+                  ]).map((dist) => (
+                    <option key={dist} value={dist}>
+                      {dist}, Maharashtra
+                    </option>
+                  ))}
+                </select>
+                <span className="text-[11px] text-[#8c96a0] mt-1 block">
+                  Maps local District Industries Centre (DIC) and municipal jurisdictions.
+                </span>
+              </div>
+            </div>
+
+            {/* Grid: Business Stage & Business Size */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Field 3: Business Stage */}
+              <div>
+                <label className="block text-xs font-bold text-[#12304A] uppercase tracking-wider mb-1">
+                  Business Stage *
                 </label>
                 <select
                   value={formData.stage}
-                  onChange={(e) => handleInputChange("stage", e.target.value)}
-                  className="w-full h-10 px-3 bg-surface-container-lowest border border-outline-variant rounded text-sm text-on-surface focus:outline-none focus:border-primary-container"
+                  onChange={(e) => setFormData({ ...formData, stage: e.target.value })}
+                  className="w-full px-3.5 py-2.5 rounded border border-[#D8DEE4] bg-white text-sm text-[#263238] focus:outline-hidden focus:border-[#0B4F71]"
                 >
-                  {BUSINESS_STAGES.map((stg) => (
+                  {(BUSINESS_STAGES || [
+                    "Idea / Planning",
+                    "New Business",
+                    "Existing Business",
+                    "Expansion",
+                  ]).map((stg) => (
                     <option key={stg} value={stg}>
                       {stg}
                     </option>
                   ))}
                 </select>
-                <span className="text-[11px] text-outline mt-0.5 block">
-                  Determines pre-operational vs recurring filings
+                <span className="text-[11px] text-[#8c96a0] mt-1 block">
+                  Identifies pre-construction vs operational licensing requirements.
                 </span>
               </div>
 
-              {/* 5. Business Size */}
+              {/* Field 4: Business Size */}
               <div>
-                <label className="block font-label-md text-xs font-semibold text-on-surface mb-1">
-                  4. Business Size (MSME Scale) <span className="text-red-600">*</span>
+                <label className="block text-xs font-bold text-[#12304A] uppercase tracking-wider mb-1">
+                  Business Size *
                 </label>
                 <select
                   value={formData.classification}
-                  onChange={(e) => handleInputChange("classification", e.target.value)}
-                  className="w-full h-10 px-3 bg-surface-container-lowest border border-outline-variant rounded text-sm text-on-surface font-semibold focus:outline-none focus:border-primary-container"
+                  onChange={(e) => setFormData({ ...formData, classification: e.target.value })}
+                  className="w-full px-3.5 py-2.5 rounded border border-[#D8DEE4] bg-white text-sm text-[#263238] focus:outline-hidden focus:border-[#0B4F71]"
                 >
-                  {BUSINESS_SIZES.map((sz) => (
+                  {(BUSINESS_SIZES || ["Micro", "Small", "Medium", "Large"]).map((sz) => (
                     <option key={sz} value={sz}>
-                      {sz} Enterprise
+                      {sz} MSME
                     </option>
                   ))}
                 </select>
-                <span className="text-[11px] text-outline mt-0.5 block">
-                  Micro (&lt; ₹1 Cr) • Small (&lt; ₹10 Cr) • Medium (&lt; ₹50 Cr)
+                <span className="text-[11px] text-[#8c96a0] mt-1 block">
+                  Micro (&lt;₹1 Cr inv), Small (&lt;₹10 Cr inv), Medium (&lt;₹50 Cr inv).
                 </span>
               </div>
             </div>
-          </section>
 
-          {/* SECTION 2: LOCATION & STATE JURISDICTION */}
-          <section className="bg-surface-container-lowest rounded border border-outline-variant p-space-md shadow-xs">
-            <div className="flex items-center gap-2.5 pb-3 border-b border-outline-variant mb-4">
-              <MapPin className="w-5 h-5 text-secondary" />
-              <div>
-                <h3 className="font-headline-sm text-base font-bold text-primary">
-                  2. Location & Siting Jurisdiction
-                </h3>
-                <p className="text-xs text-on-surface-variant">
-                  Determines municipal bylaws, District Industries Centre (DIC), and Maharashtra PSI 2019 sub-zone incentives.
-                </p>
+            {/* Field 5: Operations */}
+            <div>
+              <label className="block text-xs font-bold text-[#12304A] uppercase tracking-wider mb-1.5">
+                Operations Carried Out on Premises *
+              </label>
+              <p className="text-xs text-[#495057] mb-2.5">
+                Select all activities conducted at this facility. Specific operations trigger specialized clearances.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {availableOps.map((op) => {
+                  const selected = formData.operations.includes(op);
+                  return (
+                    <button
+                      key={op}
+                      type="button"
+                      onClick={() => handleOperationToggle(op)}
+                      className={`px-3 py-1.5 rounded text-xs font-semibold border transition-colors ${
+                        selected
+                          ? "bg-[#0B4F71] text-white border-[#0B4F71]"
+                          : "bg-white text-[#495057] border-[#D8DEE4] hover:bg-[#F5F7F8]"
+                      }`}
+                    >
+                      {selected ? "✓ " : "+ "}
+                      {op}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {/* State */}
-              <div>
-                <label className="block font-label-md text-xs font-semibold text-on-surface mb-1">
-                  State Jurisdiction <span className="text-red-600">*</span>
-                </label>
-                <select
-                  value={formData.state}
-                  onChange={(e) => handleInputChange("state", e.target.value)}
-                  className="w-full h-10 px-3 bg-surface-container border border-outline-variant rounded text-sm text-on-surface font-semibold"
-                >
-                  <option value="Maharashtra">Maharashtra</option>
-                </select>
+            {/* Operational Thresholds (Workforce & Power) */}
+            <div className="pt-4 border-t border-[#D8DEE4]">
+              <div className="text-xs font-bold text-[#12304A] uppercase tracking-wider mb-2">
+                Operating Parameters (Optional / Threshold Rules)
               </div>
-
-              {/* District / City */}
-              <div>
-                <label className="block font-label-md text-xs font-semibold text-on-surface mb-1">
-                  District / City <span className="text-red-600">*</span>
-                </label>
-                <select
-                  value={formData.district}
-                  onChange={(e) => handleInputChange("district", e.target.value)}
-                  className="w-full h-10 px-3 bg-surface-container-lowest border border-outline-variant rounded text-sm text-on-surface font-medium focus:outline-none focus:border-primary-container"
-                >
-                  {MAHARASHTRA_DISTRICTS.map((dst) => (
-                    <option key={dst} value={dst}>
-                      {dst}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Industrial Area / MIDC / IT Park */}
-              <div>
-                <label className="block font-label-md text-xs font-semibold text-on-surface mb-1">
-                  Industrial Area / Zone / Tech Park
-                </label>
-                <input
-                  type="text"
-                  value={formData.industrialArea}
-                  onChange={(e) => handleInputChange("industrialArea", e.target.value)}
-                  placeholder="e.g. MIDC Industrial Zone / Hinjawadi Phase 1"
-                  className="w-full h-10 px-3 bg-surface-container-lowest border border-outline-variant rounded text-sm text-on-surface focus:outline-none focus:border-primary-container"
-                />
-              </div>
-
-              {/* Plot / Address */}
-              <div className="md:col-span-2">
-                <label className="block font-label-md text-xs font-semibold text-on-surface mb-1">
-                  Premises Street Address & Plot Number
-                </label>
-                <input
-                  type="text"
-                  value={formData.plotNumber}
-                  onChange={(e) => handleInputChange("plotNumber", e.target.value)}
-                  placeholder="e.g. Plot No. 42, Sector 5 / Office 302, Business Center"
-                  className="w-full h-10 px-3 bg-surface-container-lowest border border-outline-variant rounded text-sm text-on-surface focus:outline-none focus:border-primary-container"
-                />
-              </div>
-
-              {/* PIN Code */}
-              <div>
-                <label className="block font-label-md text-xs font-semibold text-on-surface mb-1">
-                  PIN Code
-                </label>
-                <input
-                  type="text"
-                  value={formData.pinCode}
-                  onChange={(e) => handleInputChange("pinCode", e.target.value)}
-                  placeholder="e.g. 422010"
-                  className="w-full h-10 px-3 bg-surface-container-lowest border border-outline-variant rounded text-sm text-on-surface font-mono focus:outline-none focus:border-primary-container"
-                />
-              </div>
-            </div>
-          </section>
-
-          {/* SECTION 3: OPERATIONS (DYNAMICALLY TAILORED TO SELECTED INDUSTRY) */}
-          <section className="bg-surface-container-lowest rounded border border-outline-variant p-space-md shadow-xs">
-            <div className="flex items-center justify-between pb-3 border-b border-outline-variant mb-4">
-              <div className="flex items-center gap-2.5">
-                <Factory className="w-5 h-5 text-primary-container" />
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
-                  <h3 className="font-headline-sm text-base font-bold text-primary">
-                    3. Enterprise Operations & Activities ({formData.sector})
-                  </h3>
-                  <p className="text-xs text-on-surface-variant">
-                    Select the active operational activities for your business. Specific permits are triggered based on these selections.
-                  </p>
+                  <label className="block text-xs text-[#495057] mb-1">
+                    Number of Employees
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    value={formData.workforceCount}
+                    onChange={(e) =>
+                      setFormData({ ...formData, workforceCount: Number(e.target.value) })
+                    }
+                    className="w-full px-3 py-2 rounded border border-[#D8DEE4] text-xs text-[#263238]"
+                  />
+                  <span className="text-[10px] text-[#8c96a0]">10+ triggers Gumasta / DISH review</span>
+                </div>
+
+                <div>
+                  <label className="block text-xs text-[#495057] mb-1">
+                    Connected Electric Power (HP)
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    value={formData.connectedLoadHP}
+                    onChange={(e) =>
+                      setFormData({ ...formData, connectedLoadHP: Number(e.target.value) })
+                    }
+                    className="w-full px-3 py-2 rounded border border-[#D8DEE4] text-xs text-[#263238]"
+                  />
+                  <span className="text-[10px] text-[#8c96a0]">&gt;25 HP triggers MPCB CTE check</span>
+                </div>
+
+                <div>
+                  <label className="block text-xs text-[#495057] mb-1">
+                    Industrial Area / MIDC
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.industrialArea}
+                    onChange={(e) => setFormData({ ...formData, industrialArea: e.target.value })}
+                    placeholder="e.g. Ambad MIDC"
+                    className="w-full px-3 py-2 rounded border border-[#D8DEE4] text-xs text-[#263238]"
+                  />
+                  <span className="text-[10px] text-[#8c96a0]">MIDC zone drainage verification</span>
                 </div>
               </div>
-              <span className="text-xs font-mono font-bold text-secondary px-2 py-0.5 rounded bg-secondary-container/40">
-                {formData.operations.length} Selected
-              </span>
             </div>
+          </div>
 
-            {/* Operations Checkboxes */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-              {currentAvailableOperations.map((op) => {
-                const isChecked = formData.operations.includes(op);
-                return (
-                  <div
-                    key={op}
-                    onClick={() => handleOperationToggle(op)}
-                    className={`p-3 rounded border cursor-pointer flex items-start gap-2.5 transition-colors ${
-                      isChecked
-                        ? "bg-secondary-container/20 border-secondary text-primary font-semibold"
-                        : "bg-surface-container-low border-outline-variant text-on-surface hover:bg-surface-container"
-                    }`}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={isChecked}
-                      onChange={() => {}}
-                      className="mt-0.5 w-4 h-4 text-secondary accent-[#166b55] cursor-pointer"
-                    />
-                    <div className="flex-1">
-                      <span className="text-xs block font-semibold leading-tight">{op}</span>
-                      <span className="text-[10px] text-outline font-normal">
-                        Active operational permit trigger
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+          {/* Form Actions */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white border border-[#D8DEE4] rounded p-4 shadow-xs">
+            <span className="text-xs text-[#495057]">
+              All details are stored in your secure Supabase enterprise profile.
+            </span>
 
-            {/* Threshold parameters */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 mt-4 border-t border-surface-variant">
-              <div>
-                <label className="block font-label-md text-xs font-semibold text-on-surface mb-1">
-                  Estimated Workforce (Employees)
-                </label>
-                <input
-                  type="number"
-                  value={formData.workforceCount}
-                  onChange={(e) => handleInputChange("workforceCount", parseInt(e.target.value) || 0)}
-                  className="w-full h-10 px-3 bg-surface-container-lowest border border-outline-variant rounded text-sm text-on-surface focus:outline-none focus:border-primary-container"
-                />
-                <span className="text-[11px] text-secondary font-medium">
-                  {formData.workforceCount >= 20 ? "Triggers Factories Act provisions" : "Under Shops & Est. limits"}
-                </span>
-              </div>
-
-              <div>
-                <label className="block font-label-md text-xs font-semibold text-on-surface mb-1">
-                  Connected Power Load (Horsepower HP)
-                </label>
-                <input
-                  type="number"
-                  value={formData.connectedLoadHP}
-                  onChange={(e) => handleInputChange("connectedLoadHP", parseInt(e.target.value) || 0)}
-                  className="w-full h-10 px-3 bg-surface-container-lowest border border-outline-variant rounded text-sm text-on-surface focus:outline-none focus:border-primary-container"
-                />
-                <span className="text-[11px] text-outline">
-                  Sanctioned electricity demand
-                </span>
-              </div>
-
-              <div>
-                <label className="block font-label-md text-xs font-semibold text-on-surface mb-1">
-                  Plant, Machinery / Hardware Outlay (₹)
-                </label>
-                <input
-                  type="number"
-                  value={formData.plantMachineryInvestment}
-                  onChange={(e) => handleInputChange("plantMachineryInvestment", parseInt(e.target.value) || 0)}
-                  className="w-full h-10 px-3 bg-surface-container-lowest border border-outline-variant rounded text-sm text-on-surface font-mono focus:outline-none focus:border-primary-container"
-                />
-                <span className="text-[11px] text-secondary font-medium">
-                  Qualifies for ~40-50% PSI Capital Subsidy
-                </span>
-              </div>
-            </div>
-          </section>
-
-          {/* SECTION 4: STATUTORY REGISTRATIONS (OPTIONAL / EDITABLE) */}
-          <section className="bg-surface-container-lowest rounded border border-outline-variant p-space-md shadow-xs">
-            <div className="flex items-center gap-2.5 pb-3 border-b border-outline-variant mb-4">
-              <BadgeCheck className="w-5 h-5 text-secondary" />
-              <div>
-                <h3 className="font-headline-sm text-base font-bold text-primary">
-                  4. Statutory Identifiers & Tax Numbers (If Available)
-                </h3>
-                <p className="text-xs text-on-surface-variant">
-                  Leave empty if starting a new business; enter if already incorporated.
-                </p>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label className="block font-label-md text-xs font-semibold text-on-surface mb-1">
-                  Udyam Registration Number
-                </label>
-                <input
-                  type="text"
-                  value={formData.udyamNumber}
-                  onChange={(e) => handleInputChange("udyamNumber", e.target.value)}
-                  placeholder="UDYAM-MH-XX-XXXXXXX"
-                  className="w-full h-10 px-3 bg-surface-container-lowest border border-outline-variant rounded text-sm text-on-surface font-mono focus:outline-none focus:border-primary-container"
-                />
-              </div>
-
-              <div>
-                <label className="block font-label-md text-xs font-semibold text-on-surface mb-1">
-                  PAN Number
-                </label>
-                <input
-                  type="text"
-                  value={formData.pan}
-                  onChange={(e) => handleInputChange("pan", e.target.value)}
-                  placeholder="e.g. AABCA9128K"
-                  className="w-full h-10 px-3 bg-surface-container-lowest border border-outline-variant rounded text-sm text-on-surface font-mono focus:outline-none focus:border-primary-container"
-                />
-              </div>
-
-              <div>
-                <label className="block font-label-md text-xs font-semibold text-on-surface mb-1">
-                  GSTIN
-                </label>
-                <input
-                  type="text"
-                  value={formData.gstin}
-                  onChange={(e) => handleInputChange("gstin", e.target.value)}
-                  placeholder="e.g. 27AABCA9128K1Z3"
-                  className="w-full h-10 px-3 bg-surface-container-lowest border border-outline-variant rounded text-sm text-on-surface font-mono focus:outline-none focus:border-primary-container"
-                />
-              </div>
-            </div>
-          </section>
-
-          {/* Action Row */}
-          <div className="flex flex-wrap items-center justify-between gap-4 pt-4">
-            <div className="flex items-center gap-2 text-xs text-on-surface-variant">
-              <ShieldAlert className="w-4 h-4 text-secondary" />
-              <span>
-                Saving recomputes your <strong>{formData.sector}</strong> regulatory roadmap, required permits, documents vault, and subsidies in real time.
-              </span>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <button
-                type="button"
-                onClick={() => navigate("/dashboard")}
-                className="h-11 px-5 rounded border border-outline text-on-surface text-sm font-semibold hover:bg-surface-container transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                disabled={isSaving}
-                className="h-11 px-6 rounded bg-primary-container text-on-primary text-sm font-semibold hover:bg-primary transition-colors flex items-center gap-2 shadow-sm"
-              >
-                <Save className="w-4 h-4" />
-                <span>{isSaving ? "Compiling Roadmap..." : "Save Profile & Generate Roadmap"}</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
+            <button
+              type="submit"
+              disabled={saving}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded bg-[#0B4F71] hover:bg-[#12304A] text-white font-semibold text-sm transition-colors shadow-xs"
+            >
+              {saving ? (
+                <span>Building Journey...</span>
+              ) : (
+                <>
+                  <span>Build My Regulatory Journey</span>
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              )}
+            </button>
           </div>
         </form>
       </div>

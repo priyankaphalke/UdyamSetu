@@ -1,393 +1,242 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useApp } from "../context/AppContext";
 import AppLayout from "../components/layout/AppLayout";
-import TimelineGrid from "../components/common/TimelineGrid";
 import HandoffCard from "../components/common/HandoffCard";
 import {
-  Building2,
-  ArrowRight,
-  ShieldCheck,
-  AlertTriangle,
-  FileCheck2,
   CheckCircle2,
-  Circle,
   Clock,
-  ExternalLink,
-  HelpCircle,
-  Layers,
   ChevronRight,
-  Factory,
-  Landmark,
-  Store,
+  Filter,
+  ArrowRight,
+  Building2,
+  ExternalLink,
+  Shield,
+  HelpCircle,
 } from "lucide-react";
 
 export default function RegulatoryRoadmap() {
-  const navigate = useNavigate();
-  const { businessProfile, requirements, openUploadModal } = useApp();
-  const [activeFilter, setActiveFilter] = useState("all");
+  const { businessProfile, requirements } = useApp();
+  const [activeCategory, setActiveCategory] = useState("all");
 
-  const filteredRequirements = requirements.filter((req) => {
-    if (activeFilter === "statutory") return req.category.includes("STATUTORY") || req.category.includes("ENVIRONMENTAL");
-    if (activeFilter === "municipal") return req.category.includes("MUNICIPAL");
+  const categories = [
+    { id: "all", label: "All Clearances" },
+    { id: "approval", label: "Statutory Approvals (FSSAI, DISH)" },
+    { id: "clearance", label: "Environmental Clearances (MPCB)" },
+    { id: "registration", label: "Registrations (Gumasta, Udyam)" },
+  ];
+
+  const filtered = requirements.filter((req) => {
+    if (activeCategory === "approval") return req.category?.includes("APPROVAL");
+    if (activeCategory === "clearance") return req.category?.includes("CLEARANCE") || req.category?.includes("ENVIRONMENTAL");
+    if (activeCategory === "registration") return req.category?.includes("REGISTRATION");
     return true;
   });
 
+  const steps = [
+    { number: "1", title: "Understand", desc: "Applicable laws & rules" },
+    { number: "2", title: "Prepare", desc: "Required documents & records" },
+    { number: "3", title: "Submit", desc: "Official government portal filing" },
+    { number: "4", title: "Track", desc: "Department scrutiny & inspection" },
+    { number: "5", title: "Comply", desc: "Annual returns & renewals" },
+  ];
+
   return (
     <AppLayout>
-      <div className="flex flex-col space-y-space-lg max-w-7xl mx-auto pb-12">
-        {/* TOP CONTEXT & BREADCRUMBS */}
-        <div className="flex flex-col gap-space-sm">
-          <div className="flex flex-wrap items-center justify-between gap-y-2">
-            <nav className="flex items-center gap-2 font-code-statutory text-code-statutory text-on-surface-variant">
-              <Link to="/dashboard" className="hover:text-primary transition-colors">
-                Overview
-              </Link>
-              <span className="text-outline-variant">/</span>
-              <span className="text-on-surface font-semibold">Regulatory Roadmap</span>
-              <span className="text-outline-variant mx-1">|</span>
-              <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant text-[11px] font-medium tracking-wide">
-                <span className="w-1.5 h-1.5 rounded-full bg-secondary"></span>
-                Prototype Mode • Curated Guidance
-              </span>
-            </nav>
-            <div className="flex items-center gap-2">
-              <span className="font-label-sm text-label-sm uppercase tracking-wider text-outline">
-                Reference ID:
-              </span>
-              <span className="font-code-statutory text-code-statutory font-semibold text-primary px-2 py-0.5 bg-surface-container rounded font-mono">
-                {businessProfile?.referenceId || "MH-2024-REG"}
-              </span>
-            </div>
-          </div>
-
-          {/* Title & Context Metadata Ribbon */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-2 border-b border-outline-variant">
+      <div className="space-y-6">
+        {/* ========================================================================= */}
+        {/* HEADER & 5-STEP JOURNEY SEQUENCE                                          */}
+        {/* ========================================================================= */}
+        <div className="bg-white border border-[#D8DEE4] rounded p-5 sm:p-6 shadow-xs space-y-5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#D8DEE4]">
             <div>
-              <h1 className="font-headline-lg text-[26px] text-primary tracking-tight font-bold">
-                Regulatory Roadmap
-              </h1>
-              <p className="font-body-md text-sm text-on-surface-variant mt-0.5">
-                Applicable approvals and requirements for {businessProfile?.legalName}
-              </p>
-            </div>
-            <div className="flex items-center gap-3 bg-surface-container-lowest px-3.5 py-2 rounded border border-outline-variant shadow-xs">
-              <div className="flex items-center gap-2 text-on-surface text-xs font-medium">
-                <Building2 className="w-4 h-4 text-secondary" />
-                <span>
-                  {businessProfile?.sector} • {businessProfile?.district}, {businessProfile?.state} • {businessProfile?.classification} Scale
+              <div className="flex items-center gap-2">
+                <span className="text-[11px] font-bold text-[#0B4F71] uppercase tracking-wider px-2 py-0.5 rounded bg-[#e3f0f8] border border-[#b8d7eb]">
+                  Regulatory Roadmap
+                </span>
+                <span className="text-xs text-[#495057]">
+                  {businessProfile?.legalName} • {businessProfile?.sector}
                 </span>
               </div>
-              <div className="h-4 w-px bg-outline-variant"></div>
-              <Link
-                to="/business-profile"
-                className="inline-flex items-center gap-1 font-label-sm text-xs text-secondary hover:text-primary font-semibold transition-colors"
-              >
-                Change Business Context
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
+              <h1 className="text-xl sm:text-2xl font-bold text-[#12304A] font-serif mt-1">
+                My Regulatory Journey
+              </h1>
+              <p className="text-xs sm:text-sm text-[#495057] mt-0.5">
+                Statutory clearances and licenses mapped for your operations in {businessProfile?.district || "Maharashtra"}.
+              </p>
+            </div>
+
+            <Link
+              to="/business-profile"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#F5F7F8] hover:bg-[#e3f0f8] border border-[#D8DEE4] text-xs font-semibold text-[#12304A] transition-colors shrink-0"
+            >
+              <Building2 className="w-3.5 h-3.5 text-[#0B4F71]" />
+              <span>Edit Business Details</span>
+            </Link>
+          </div>
+
+          {/* Simple 5-Step Sequence */}
+          <div>
+            <div className="text-[11px] font-bold uppercase tracking-wider text-[#495057] mb-3">
+              Standard Maharashtra MSME Regulatory Pathway:
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 sm:gap-3">
+              {steps.map((st, idx) => (
+                <div
+                  key={st.number}
+                  className={`p-3 rounded border text-xs ${
+                    idx === 0
+                      ? "bg-[#e3f0f8] border-[#0B4F71] text-[#12304A]"
+                      : idx === 1
+                      ? "bg-[#fef5e7] border-[#D99A35] text-[#7a5214]"
+                      : "bg-[#F5F7F8] border-[#D8DEE4] text-[#495057]"
+                  }`}
+                >
+                  <div className="flex items-center gap-1.5 font-bold mb-1">
+                    <span
+                      className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] text-white ${
+                        idx === 0
+                          ? "bg-[#0B4F71]"
+                          : idx === 1
+                          ? "bg-[#D99A35]"
+                          : "bg-[#8c96a0]"
+                      }`}
+                    >
+                      {st.number}
+                    </span>
+                    <span className="font-semibold text-xs sm:text-sm">{st.title}</span>
+                  </div>
+                  <div className="text-[11px] leading-tight text-[#495057]">{st.desc}</div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
 
-        {/* REGULATORY JOURNEY */}
-        <TimelineGrid activeStage={3} />
-
-        {/* TWO-COLUMN WORKSPACE: 65% MAIN CONTENT / 35% SIDE ACTION */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
-          {/* LEFT COLUMN: APPLICABLE REQUIREMENTS (8 Cols) */}
-          <div className="lg:col-span-8 flex flex-col space-y-space-md">
-            {/* Section Title & Filter Tabs */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-surface-container-lowest p-space-md rounded border border-outline-variant shadow-xs">
-              <div>
-                <div className="flex items-center gap-2">
-                  <h2 className="font-headline-md text-lg font-bold text-primary tracking-tight">
-                    Applicable Requirements
-                  </h2>
-                  <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-primary-container text-on-primary">
-                    {requirements.length} Applicable Approvals
-                  </span>
-                </div>
-                <p className="font-body-sm text-xs text-on-surface-variant mt-0.5">
-                  Identified based on activity: {businessProfile?.sector} & operations: {businessProfile?.operations?.join(", ")}.
-                </p>
-              </div>
-
-              {/* Filter Pills */}
-              <div className="inline-flex p-1 bg-surface-container rounded border border-outline-variant text-xs font-semibold">
-                <button
-                  onClick={() => setActiveFilter("all")}
-                  className={`px-3 py-1 rounded transition-colors ${
-                    activeFilter === "all"
-                      ? "bg-surface-container-lowest text-primary font-bold shadow-xs border border-outline-variant/60"
-                      : "text-on-surface-variant hover:text-primary"
-                  }`}
-                >
-                  All ({requirements.length})
-                </button>
-                <button
-                  onClick={() => setActiveFilter("statutory")}
-                  className={`px-3 py-1 rounded transition-colors ${
-                    activeFilter === "statutory"
-                      ? "bg-surface-container-lowest text-primary font-bold shadow-xs border border-outline-variant/60"
-                      : "text-on-surface-variant hover:text-primary"
-                  }`}
-                >
-                  Statutory ({requirements.filter(r => r.category.includes("STATUTORY") || r.category.includes("ENVIRONMENTAL")).length})
-                </button>
-                <button
-                  onClick={() => setActiveFilter("municipal")}
-                  className={`px-3 py-1 rounded transition-colors ${
-                    activeFilter === "municipal"
-                      ? "bg-surface-container-lowest text-primary font-bold shadow-xs border border-outline-variant/60"
-                      : "text-on-surface-variant hover:text-primary"
-                  }`}
-                >
-                  Municipal ({requirements.filter(r => r.category.includes("MUNICIPAL")).length})
-                </button>
-              </div>
+        {/* ========================================================================= */}
+        {/* REQUIREMENTS TABLE / LIST                                                 */}
+        {/* ========================================================================= */}
+        <div className="bg-white border border-[#D8DEE4] rounded p-5 sm:p-6 shadow-xs space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#D8DEE4]">
+            <div>
+              <h2 className="text-base sm:text-lg font-bold text-[#12304A] font-serif">
+                Applicable Requirements ({filtered.length})
+              </h2>
+              <p className="text-xs text-[#495057]">
+                Review why each requirement applies, required documents, and next preparation steps.
+              </p>
             </div>
 
-            {/* REQUIREMENT CARDS LIST */}
-            {filteredRequirements.length === 0 ? (
-              <div className="p-12 text-center bg-surface-container-lowest rounded border border-outline-variant text-on-surface-variant flex flex-col items-center justify-center gap-2">
-                <Layers className="w-8 h-8 text-outline" />
-                <span className="font-semibold text-sm">No approvals found</span>
-                <p className="text-xs text-outline max-w-sm">
-                  No approvals match the current filter. Try selecting "All Clearances" or updating your business profile.
-                </p>
-              </div>
-            ) : (
-              filteredRequirements.map((req) => {
-              const isConfirmed = req.verification_status === "CONFIRMED" || req.rule_status === "APPLICABLE";
-              const isConditional = req.verification_status === "CONDITIONAL" || req.rule_status === "POTENTIALLY_APPLICABLE";
-              const needsVerification = req.verification_status === "NEEDS_VERIFICATION" || req.rule_status === "NEEDS_VERIFICATION";
+            {/* Category Filter Buttons */}
+            <div className="flex flex-wrap items-center gap-1.5 text-xs">
+              {categories.map((c) => (
+                <button
+                  key={c.id}
+                  onClick={() => setActiveCategory(c.id)}
+                  className={`px-3 py-1.5 rounded font-semibold border transition-colors ${
+                    activeCategory === c.id
+                      ? "bg-[#0B4F71] text-white border-[#0B4F71]"
+                      : "bg-[#F5F7F8] text-[#495057] border-[#D8DEE4] hover:bg-white"
+                  }`}
+                >
+                  {c.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Clean Rows */}
+          <div className="space-y-3">
+            {filtered.map((req) => {
+              const status = req.ruleStatus || req.matchStatus || "APPLICABLE";
+              const isApplicable = status === "APPLICABLE";
+              const isConditional = status === "POTENTIALLY_APPLICABLE";
 
               return (
-                <article
+                <div
                   key={req.id}
-                  className="bg-surface-container-lowest rounded border border-outline-variant overflow-hidden hover:border-primary/40 transition-colors shadow-xs"
+                  className="p-4 rounded border border-[#D8DEE4] bg-white hover:border-[#0B4F71] transition-all space-y-3"
                 >
-                  <div className="p-space-md flex flex-col space-y-space-sm">
-                    {/* Card Meta Row */}
-                    <div className="flex flex-wrap items-start justify-between gap-2">
-                      <div className="space-y-1.5 flex-1">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          {/* User-Friendly Applicability Badge */}
-                          <span
-                            className={`inline-flex items-center px-2.5 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase border ${
-                              isConfirmed
-                                ? "bg-emerald-50 text-emerald-800 border-emerald-300"
-                                : isConditional
-                                ? "bg-amber-50 text-amber-800 border-amber-300"
-                                : "bg-purple-50 text-purple-800 border-purple-300"
-                            }`}
-                          >
-                            {req.user_friendly_badge || (isConfirmed ? "Confirmed Statutory Requirement" : isConditional ? "Conditional Requirement" : "Verification Required")}
-                          </span>
-
-                          <span className="font-code-statutory text-[11px] text-outline font-mono">
-                            Statute: {req.source_reference || req.act}
-                          </span>
-                        </div>
-
-                        <div>
-                          <div className="text-[11px] text-outline font-semibold uppercase tracking-wider">
-                            What may apply to your business:
-                          </div>
-                          <h3 className="font-headline-sm text-base font-bold text-primary mt-0.5">
-                            <Link to={`/requirements/${req.id}`} className="hover:text-secondary">
-                              {req.name || req.title}
-                            </Link>
-                          </h3>
-                        </div>
-
-                        {/* Official Source Ribbon */}
-                        <div className="flex items-center gap-2 text-xs text-on-surface-variant flex-wrap pt-0.5">
-                          <Landmark className="w-3.5 h-3.5 text-secondary shrink-0" />
-                          <span>
-                            <strong className="text-on-surface">Official Source: </strong>
-                            {req.official_source_name || req.department}
-                          </span>
-                          {(req.official_source_url || req.portalUrl) && (
-                            <a
-                              href={req.official_source_url || req.portalUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-0.5 text-secondary hover:underline font-medium text-[11px]"
-                            >
-                              <span>Official Portal</span>
-                              <ExternalLink className="w-3 h-3" />
-                            </a>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Prepared documents count */}
-                      <div className="text-right shrink-0">
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded font-code-statutory text-[12px] bg-secondary-container/40 text-on-secondary-container font-bold border border-secondary/30">
-                          <span className="w-1.5 h-1.5 rounded-full bg-secondary"></span>
-                          {(req.required_documents || req.mandatoryRecords)?.filter((r) => r.status === "verified").length} of {(req.required_documents || req.mandatoryRecords)?.length} Prepared
+                  <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                    <div className="space-y-1 max-w-3xl">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="font-bold text-sm sm:text-base text-[#12304A]">
+                          {req.title || req.name}
                         </span>
-                      </div>
-                    </div>
-
-                    {/* Why it may apply block */}
-                    <div className="bg-surface-container-low p-3 rounded border border-outline-variant/60 flex items-start gap-2.5">
-                      <ShieldCheck className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                      <div className="text-xs text-on-surface leading-relaxed">
-                        <span className="font-bold text-primary">Why it may apply: </span>
-                        {req.why_it_may_apply || req.statutoryTriggers || req.trigger_conditions}
-                      </div>
-                    </div>
-
-                    {/* Verification Notes Alert (if conditional or needs verification) */}
-                    {(req.verification_notes || needsVerification) && (
-                      <div className="bg-amber-50/70 p-2.5 rounded border border-amber-200/80 flex items-start gap-2 text-xs text-amber-900">
-                        <AlertTriangle className="w-3.5 h-3.5 text-amber-700 shrink-0 mt-0.5" />
-                        <div>
-                          <strong className="font-semibold text-amber-950">Manual Verification Item: </strong>
-                          {req.verification_notes || "Requires checking shop-floor worker count or operational volume against statutory threshold."}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* What you need to prepare checklist */}
-                    <div className="space-y-1.5 pt-1">
-                      <span className="font-label-sm text-[11px] uppercase tracking-wider text-outline font-semibold">
-                        What you need to prepare:
-                      </span>
-                      <div className="flex flex-wrap gap-2">
-                        {(req.required_documents || req.mandatoryRecords || []).map((rec) => (
-                          <span
-                            key={rec.id}
-                            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface border border-outline-variant font-code-statutory text-[11px] text-on-surface"
-                          >
-                            {rec.status === "verified" ? (
-                              <CheckCircle2 className="w-3.5 h-3.5 text-secondary" />
-                            ) : (
-                              <Circle className="w-3.5 h-3.5 text-outline" />
-                            )}
-                            <span className={rec.status === "verified" ? "font-medium" : "text-on-surface-variant"}>
-                              {rec.name}
-                            </span>
+                        {isApplicable && (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-semibold bg-[#e1f5ee] text-[#176B55] border border-[#a2e0cb]">
+                            <CheckCircle2 className="w-3 h-3" />
+                            Applicable
                           </span>
-                        ))}
+                        )}
+                        {isConditional && (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-semibold bg-[#fef5e7] text-[#D99A35] border border-[#f8c471]">
+                            <Clock className="w-3 h-3" />
+                            Potentially Applicable
+                          </span>
+                        )}
+                        {!isApplicable && !isConditional && (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-semibold bg-[#F5F7F8] text-[#495057] border border-[#D8DEE4]">
+                            Needs Verification
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="text-xs text-[#8c96a0]">
+                        <strong className="text-[#495057] font-medium">{req.department}</strong> •{" "}
+                        <span>{req.act}</span>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Card Action Footer: Next Step */}
-                  <div className="bg-surface-container px-space-md py-2.5 border-t border-outline-variant flex flex-wrap items-center justify-between gap-3">
-                    <div className="flex items-center gap-2 text-on-surface-variant font-body-sm text-xs">
-                      {req.dossierReadiness >= 80 ? (
-                        <CheckCircle2 className="w-4 h-4 text-secondary shrink-0" />
-                      ) : (
-                        <AlertTriangle className="w-4 h-4 text-amber-700 shrink-0" />
-                      )}
-                      <span>
-                        <strong className="text-on-surface">Next step: </strong>
-                        {req.next_step || req.actionNeeded}
-                      </span>
-                    </div>
                     <Link
                       to={`/requirements/${req.id}`}
-                      className="inline-flex items-center gap-2 h-9 px-4 rounded bg-primary-container text-on-primary font-label-md text-xs font-semibold hover:bg-primary transition-colors shadow-xs"
+                      className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded bg-[#0B4F71] hover:bg-[#12304A] text-white text-xs font-semibold transition-colors shrink-0 shadow-xs"
                     >
-                      <span>VIEW DETAILS & PREREQUISITES</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
+                      <span>View Details</span>
+                      <ChevronRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>
-                </article>
+
+                  {/* Why it applies */}
+                  <div className="p-3 bg-[#F5F7F8] rounded border border-[#D8DEE4] text-xs text-[#263238]">
+                    <div className="font-bold text-[#12304A] text-[11px] uppercase tracking-wider mb-0.5">
+                      Why this applies to your business:
+                    </div>
+                    <p className="leading-relaxed">
+                      {req.whyItMayApply ||
+                        req.whyItApplies ||
+                        req.statutory_triggers ||
+                        "Applicable based on your business sector, operating district, and manufacturing activities in Maharashtra."}
+                    </p>
+                  </div>
+
+                  {/* Next Action & Details Bar */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs text-[#495057] pt-1 gap-2">
+                    <div className="flex items-center gap-1.5">
+                      <span className="font-bold text-[#0B4F71]">Next Action:</span>
+                      <span className="text-[#263238]">
+                        {req.nextStep ||
+                          req.next_step ||
+                          req.actionNeeded ||
+                          "Prepare required documents for official submission."}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-4 text-[11px] text-[#8c96a0] shrink-0">
+                      <span>Timeline: <strong className="text-[#263238]">{req.estimatedTimeline || req.estimated_timeline || "15-30 days"}</strong></span>
+                      <span>Fee: <strong className="text-[#263238]">{typeof req.estimatedFee === "number" ? `₹${req.estimatedFee.toLocaleString("en-IN")}` : req.estimatedFee || "As per official schedule"}</strong></span>
+                    </div>
+                  </div>
+                </div>
               );
-            }))}
-          </div>
-
-          {/* RIGHT COLUMN: ACTION STACK & INSTITUTIONAL HANDOFF (4 Cols) */}
-          <div className="lg:col-span-4 flex flex-col space-y-space-md">
-            {/* ACTION PANEL: WHAT YOU NEED TO DO */}
-            <section className="bg-surface-container-lowest rounded border border-outline-variant shadow-xs overflow-hidden">
-              <div className="p-space-md border-b border-outline-variant bg-surface-container-low">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-headline-sm text-sm font-bold text-primary">
-                    What You Need to Do
-                  </h3>
-                  <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-900 border border-amber-300 flex items-center justify-center font-mono text-xs font-bold">
-                    {requirements.length}
-                  </span>
-                </div>
-                <p className="text-xs text-on-surface-variant mt-0.5">
-                  Immediate prerequisites to unlock submission dossiers.
-                </p>
-              </div>
-
-              <div className="divide-y divide-surface-variant">
-                {requirements.map((req, idx) => (
-                  <div key={req.id} className="p-3.5 hover:bg-surface transition-colors flex items-start gap-3">
-                    <div className="w-6 h-6 rounded bg-surface-container-high text-primary flex items-center justify-center font-mono text-xs font-bold shrink-0 mt-0.5">
-                      {idx + 1}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <Link
-                        to={`/requirements/${req.id}`}
-                        className="font-label-md text-xs text-primary font-bold hover:underline block truncate"
-                      >
-                        {req.actionNeeded}
-                      </Link>
-                      <p className="text-[11px] text-on-surface-variant mt-0.5 truncate">
-                        {req.department} • {req.mandatoryRecords?.filter((r) => r.status === "verified").length} of {req.mandatoryRecords?.length} Records Ready
-                      </p>
-                      <div className="mt-2 flex items-center gap-2">
-                        <span className="text-[10px] text-outline font-mono">{req.portalName.split(" ")[0]}</span>
-                        <span className="text-outline-variant">•</span>
-                        <Link
-                          to={`/requirements/${req.id}`}
-                          className="font-label-sm text-xs text-secondary font-semibold hover:underline"
-                        >
-                          Resolve Prerequisite →
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="p-space-md bg-surface-container border-t border-outline-variant">
-                <button
-                  onClick={() => openUploadModal()}
-                  className="w-full h-10 rounded bg-secondary text-on-secondary font-label-md text-xs font-semibold hover:bg-on-secondary-container transition-colors shadow-xs flex items-center justify-center gap-2"
-                >
-                  <span>UPLOAD MISSING RECORDS</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </section>
-
-            {/* INSTITUTIONAL PROTOCOL CARD: OFFICIAL SERVICE HANDOFF */}
-            <HandoffCard />
-
-            {/* REGULATORY HELPDESK ASSISTANCE */}
-            <div className="bg-surface-container-lowest p-space-md rounded border border-outline-variant flex items-center justify-between shadow-xs">
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded bg-secondary-container/40 text-secondary flex items-center justify-center">
-                  <HelpCircle className="w-5 h-5" />
-                </div>
-                <div>
-                  <div className="font-label-md text-xs text-primary font-bold">Need Clarification?</div>
-                  <div className="font-body-sm text-[11px] text-on-surface-variant">
-                    District Industries Centre (DIC) {businessProfile?.district || "Maharashtra"} Liaison
-                  </div>
-                </div>
-              </div>
-              <a
-                href="mailto:gm.dic-nsk@maharashtra.gov.in"
-                className="px-3 py-1.5 rounded border border-outline-variant hover:bg-surface-container text-xs text-primary font-semibold transition-colors"
-              >
-                Contact
-              </a>
-            </div>
+            })}
           </div>
         </div>
+
+        {/* ========================================================================= */}
+        {/* OFFICIAL GOVERNMENT HANDOFF                                               */}
+        {/* ========================================================================= */}
+        <HandoffCard />
       </div>
     </AppLayout>
   );

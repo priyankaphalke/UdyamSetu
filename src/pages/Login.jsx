@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useApp } from "../context/AppContext";
 import {
   Scale,
@@ -15,7 +15,17 @@ import {
 
 export default function Login() {
   const navigate = useNavigate();
-  const { login } = useApp();
+  const location = useLocation();
+  const { login, user } = useApp();
+
+  const searchParams = new URLSearchParams(location.search);
+  const targetRedirect = searchParams.get("redirect") || location.state?.from?.pathname || "/dashboard";
+
+  useEffect(() => {
+    if (user?.id) {
+      navigate(targetRedirect, { replace: true });
+    }
+  }, [user, navigate, targetRedirect]);
 
   const [email, setEmail] = useState("rajesh.sharma@abcfoods.in");
   const [password, setPassword] = useState("Maharashtra@2024");
@@ -30,10 +40,17 @@ export default function Login() {
     setAuthError("");
     try {
       await login(email, password);
-      // Flow: Login -> Dashboard
-      navigate("/dashboard");
+      // Navigate to destination (dashboard or originally requested protected route)
+      navigate(targetRedirect, { replace: true });
     } catch (err) {
-      setAuthError(err.message || "Invalid email or password. Please verify your credentials.");
+      const msg = err.message || "";
+      if (msg.includes("Invalid login credentials") || msg.includes("invalid_credentials")) {
+        setAuthError("Incorrect email or password. Please verify your credentials or click 'Autofill Demo Credentials'.");
+      } else if (msg.includes("Email not confirmed")) {
+        setAuthError("Please check your email to verify your account, or sign in using demo credentials.");
+      } else {
+        setAuthError("Unable to sign in. Please verify your internet connection or try again.");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -71,7 +88,7 @@ export default function Login() {
               Sign in to your account
             </h1>
             <p className="font-body-md text-sm text-on-surface-variant mb-6">
-              Access your enterprise regulatory roadmap, dossiers, and compliance schedule.
+              Access your enterprise regulatory journey, required documents, and compliance schedule.
             </p>
 
             {/* Quick Demo Login Preset Banner */}
@@ -237,7 +254,7 @@ export default function Login() {
                 </div>
                 <div>
                   <h4 className="font-label-md text-sm font-semibold text-primary">
-                    Pre-Screened Application Dossiers
+                    Pre-Screened Required Documents
                   </h4>
                   <p className="text-xs text-on-surface-variant mt-0.5">
                     Avoid portal rejections on MAITRI and FoSCoS through automated rule-based compliance audits.

@@ -152,11 +152,17 @@ export function AppProvider({ children }) {
         setLoading(true);
         const currentUser = await apiService.getCurrentUser();
         setUser(currentUser);
-        await loadUserData(currentUser);
+        if (currentUser) {
+          await loadUserData(currentUser);
+        } else {
+          // Default unauthenticated baseline intelligence
+          applyProfileIntelligence(defaultBusinessProfile);
+        }
 
         // Supabase Auth state change listener
         if (isSupabaseConfigured && supabase) {
           const { data: listener } = supabase.auth.onAuthStateChange(async (event, session) => {
+            // Never log out on simple route navigation or tab re-focus
             if (event === "SIGNED_IN" || event === "TOKEN_REFRESHED" || event === "USER_UPDATED") {
               if (session?.user) {
                 const refreshedUser = await apiService.getCurrentUser();
@@ -164,9 +170,13 @@ export function AppProvider({ children }) {
                 await loadUserData(refreshedUser);
               }
             } else if (event === "SIGNED_OUT") {
-              setUser(null);
-              setBusinessProfile(defaultBusinessProfile);
-              applyProfileIntelligence(defaultBusinessProfile);
+              // Double check if there is truly no session
+              const { data: checkSession } = await supabase.auth.getSession().catch(() => ({ data: { session: null } }));
+              if (!checkSession?.session) {
+                setUser(null);
+                setBusinessProfile(defaultBusinessProfile);
+                applyProfileIntelligence(defaultBusinessProfile);
+              }
             }
           });
           authListener = listener;

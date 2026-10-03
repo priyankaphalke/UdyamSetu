@@ -13,7 +13,7 @@ export default function TimelineGrid({ activeStage = 3 }) {
     { number: 3, label: "Approvals", status: "Active Stage", path: "/roadmap", isCurrent: true },
     { number: 4, label: "Documents", status: "In Progress", path: "/documents" },
     { number: 5, label: "Compliance", status: "Upcoming", path: "/compliance" },
-    { number: 6, label: "Support", status: "Explore", path: "/government-support" },
+    { number: 6, label: "Support", status: "Explore", path: "/dashboard/government-support" },
   ];
 
   return (
@@ -42,6 +42,7 @@ export default function TimelineGrid({ activeStage = 3 }) {
           return (
             <button
               key={stage.number}
+              type="button"
               onClick={() => navigate(stage.path)}
               className="flex flex-col items-center text-center relative z-10 group focus:outline-none"
             >
